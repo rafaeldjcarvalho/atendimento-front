@@ -5,6 +5,7 @@ import { PrimaryInputComponent } from '../../components/primary-input/primary-in
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { PrimarySelectComponent } from "../../components/primary-select/primary-select.component";
+import { ToastrService } from 'ngx-toastr';
 
 interface SignupForm {
   name: FormControl,
@@ -40,7 +41,7 @@ export class SignupComponent {
   constructor(
     private router: Router,
     private loginService: LoginService,
-    //private toastService: ToastrService
+    private toastService: ToastrService
   ) {
     this.signupForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -54,14 +55,13 @@ export class SignupComponent {
   submit() {
     if(this.signupForm.value.password == this.signupForm.value.passwordConfirm) {
       this.loginService.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.typeAccount).subscribe({
-        next: () => console.log("ok"),//this.toastService.success("Conta criada com sucesso!"),
-        error: () => console.log("erro")//this.toastService.error("Erro inesperado! Tente novamente mais tarde.")
+        next: () => this.toastService.success("Conta criada com sucesso!"),
+        error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde.")
       })
     } else {
-      //this.toastService.error("Por favor, confirme corretamente sua senha.")
-      console.log("Senha incorreta")
+      this.toastService.error("Por favor, confirme corretamente sua senha.");
     }
-    console.log('Form Submitted:', this.signupForm.value);
+    //console.log('Form Submitted:', this.signupForm.value);
   }
 
   navigate() {
