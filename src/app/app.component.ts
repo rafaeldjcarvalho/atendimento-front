@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { DefaultLoginLayoutComponent } from "./components/default-login-layout/default-login-layout.component";
 
 @Component({
   selector: 'app-root',

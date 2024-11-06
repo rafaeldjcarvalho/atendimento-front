@@ -1,0 +1,11 @@
+<div class="select-wrapper">
+  <label [for]="selectName">{{ label }}</label>
+  <div class="select-content">
+    <select [id]="selectName" (change)="onSelectChange($event)">
+      <option value="" disabled selected>{{ placeholder }}</option>
+      <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+    </select>
+  </div>
+</div>
+
+
