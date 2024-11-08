@@ -3,8 +3,8 @@ import { DefaultLoginLayoutComponent } from '../../components/default-login-layo
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/auth.service';
 
 interface LoginForm {
   email: FormControl,
@@ -19,7 +19,7 @@ interface LoginForm {
     DefaultLoginLayoutComponent,
     PrimaryInputComponent ],
     providers: [
-      LoginService
+      AuthService
     ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -29,7 +29,7 @@ export class LoginComponent {
 
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    private authService: AuthService,
     private toastService: ToastrService
   ) {
     this.loginForm = new FormGroup({
@@ -39,8 +39,12 @@ export class LoginComponent {
   }
 
   submit() {
-    this.loginService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
-      next: () => this.toastService.success("Login realizado com sucesso!"),
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+      next: () => {
+        console.log("login realizado");
+        this.toastService.success("Login realizado com sucesso!");
+        this.router.navigate(["home"]);
+      },
       error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde.")
     })
   }

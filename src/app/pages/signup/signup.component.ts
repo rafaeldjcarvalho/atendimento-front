@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
-import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { PrimarySelectComponent } from "../../components/primary-select/primary-select.component";
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/auth.service';
 
 interface SignupForm {
   name: FormControl,
@@ -25,7 +25,7 @@ interface SignupForm {
     PrimarySelectComponent
 ],
   providers: [
-    LoginService
+    AuthService
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
@@ -40,7 +40,7 @@ export class SignupComponent {
 
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    private authService: AuthService,
     private toastService: ToastrService
   ) {
     this.signupForm = new FormGroup({
@@ -54,8 +54,11 @@ export class SignupComponent {
 
   submit() {
     if(this.signupForm.value.password == this.signupForm.value.passwordConfirm) {
-      this.loginService.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.typeAccount).subscribe({
-        next: () => this.toastService.success("Conta criada com sucesso!"),
+      this.authService.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.typeAccount).subscribe({
+        next: () => {
+          this.toastService.success("Conta criada com sucesso!");
+          this.router.navigate(["login"]);
+        },
         error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde.")
       })
     } else {
