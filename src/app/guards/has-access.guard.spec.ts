@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
 
-import { hasAccessGuard } from './has-access.guard';
+import { hasAccess } from './has-access.guard';
 
 describe('hasAccessGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => hasAccessGuard(...guardParameters));
+  const executeGuard: CanActivateFn = (...guardParameters) =>
+      TestBed.runInInjectionContext(() => hasAccess(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -15,3 +15,4 @@ describe('hasAccessGuard', () => {
     expect(executeGuard).toBeTruthy();
   });
 });
+

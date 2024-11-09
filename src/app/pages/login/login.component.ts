@@ -41,7 +41,7 @@ export class LoginComponent {
   submit() {
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       next: () => {
-        console.log("login realizado");
+        //console.log("login realizado");
         this.toastService.success("Login realizado com sucesso!");
         this.router.navigate(["home"]);
       },

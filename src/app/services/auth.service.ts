@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, ignoreElements, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { LoginResponse } from '../types/login-response.type';
 import { HttpClient } from '@angular/common/http';
 import { User, UserWithToken } from '../interfaces/user.interface';
@@ -18,20 +18,16 @@ export class AuthService {
   isLoggedIn$: Observable<boolean> = this.user$.pipe(map(Boolean));
 
   constructor(
-    private httpClient: HttpClient,
+    private httpClient: HttpClient
     //private router: Router,
   ) {
     this.loadUserFromSessionStorage();
   }
 
-  ngOnInit() {
-
-  }
-
   login(email: string, password: string) {
     return this.httpClient.post<LoginResponse>(this.apiUrl + "/login", { email, password}).pipe(
       tap((userToken) => this.saveTokenToSessionStore(userToken.token)),
-      tap((userToken) => this.pushNewUser(userToken.token)),
+      tap((userToken) => this.pushNewUser(userToken.token))
       //tap(() => this.router.navigate(["home"])),
       //ignoreElements()
     );
@@ -58,15 +54,18 @@ export class AuthService {
   //}
 
   private pushNewUser(token: string) {
+    this.user.next(this.decodeToken(token));
+    /*
     const decodedUser = this.decodeToken(token);
-    console.log('Token decodificado:', decodedUser);
+    //console.log('Token decodificado:', decodedUser);
     if (decodedUser) {
       this.user.next(decodedUser);
-      console.log('Estado atualizado:', decodedUser);
+      //console.log('Estado atualizado:', decodedUser);
     } else {
       this.user.next(null);
-      console.warn('Token inválido ou expirado.');
+      //console.warn('Token inválido ou expirado.');
     }
+    */
   }
 
   //private pushNewUser(token: string) {
@@ -87,6 +86,10 @@ export class AuthService {
   }
 
   private loadUserFromSessionStorage(): void {
+    const userFromSession = sessionStorage.getItem(USER_SESSION_STORAGE_KEY);
+
+    userFromSession && this.pushNewUser(userFromSession);
+    /*
     if (typeof window !== 'undefined' && window.sessionStorage) {
       const userFromSession = sessionStorage.getItem(USER_SESSION_STORAGE_KEY);
 
@@ -96,6 +99,7 @@ export class AuthService {
     } else {
       console.warn('sessionStorage não está carregando disponível neste ambiente.');
     }
+    */
   }
 
   private saveTokenToSessionStore(userToken: string): void {

@@ -1,6 +1,8 @@
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
+import { User, UserWithToken } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-home',
