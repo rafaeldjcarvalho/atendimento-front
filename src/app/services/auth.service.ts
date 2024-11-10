@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, delay, map, switchMap, take, tap } from 'rxjs';
 import { LoginResponse } from '../types/login-response.type';
 import { HttpClient } from '@angular/common/http';
-import { User, UserWithToken } from '../interfaces/user.interface';
+import { UserWithToken } from '../interfaces/user.interface';
+import { Router } from '@angular/router';
 
 const USER_SESSION_STORAGE_KEY = 'userData';
 
@@ -15,31 +16,31 @@ export class AuthService {
 
   private user = new BehaviorSubject<UserWithToken | null>(null);
   user$ = this.user.asObservable();
-  isLoggedIn$: Observable<boolean> = this.user$.pipe(map(Boolean));
+  isLoggedIn$ = this.user$.pipe(map((user) => !!user));
 
-  constructor(
-    private httpClient: HttpClient
-    //private router: Router,
-  ) {
+  private httpClient = inject(HttpClient);
+  private router = inject(Router);
+
+  constructor() {
     this.loadUserFromSessionStorage();
   }
 
   login(email: string, password: string) {
     return this.httpClient.post<LoginResponse>(this.apiUrl + "/login", { email, password}).pipe(
-      tap((userToken) => this.saveTokenToSessionStore(userToken.token)),
-      tap((userToken) => this.pushNewUser(userToken.token))
-      //tap(() => this.router.navigate(["home"])),
+      tap((userToken) => {
+        this.saveTokenToSessionStore(userToken.token);
+        this.pushNewUser(userToken.token);
+      }),
+      switchMap(() => this.isLoggedIn$.pipe(take(1))), // Aguarda o estado de login
+      tap(() => this.redirectTo("home")),
       //ignoreElements()
     );
   }
 
   signup(name: string, email: string, password: string, typeAcess: string){
     return this.httpClient.post<LoginResponse>(this.apiUrl + "/register", { name, email, password, typeAcess }).pipe(
-      tap((value) => {
-        //this.redirectTo("login");
-        //this.authService.setSession(value.typeAcess, value.status);
-        //sessionStorage.setItem("auth-token", value.token)
-        //sessionStorage.setItem("username", value.name)
+      tap(() => {
+        this.redirectTo("login");
       })
     )
   }
@@ -49,73 +50,49 @@ export class AuthService {
     this.user.next(null);
   }
 
-  //private redirectTo(page: string): void {
-  //  this.router.navigate([page]);
-  //}
-
-  private pushNewUser(token: string) {
-    this.user.next(this.decodeToken(token));
-    /*
-    const decodedUser = this.decodeToken(token);
-    //console.log('Token decodificado:', decodedUser);
-    if (decodedUser) {
-      this.user.next(decodedUser);
-      //console.log('Estado atualizado:', decodedUser);
-    } else {
-      this.user.next(null);
-      //console.warn('Token inválido ou expirado.');
-    }
-    */
+  private redirectTo(page: string): void {
+    this.router.navigate([page]);
   }
 
-  //private pushNewUser(token: string) {
-  //  this.user.next(this.decodeToken(token));
-  //  //console.log(this.user)
-  //}
+  private pushNewUser(token: string) {
+    //console.log('Decoded User:', token);
+    this.user.next(this.decodeToken(token));
+  }
 
-  private decodeToken(userToken: string): UserWithToken | null {
+  private decodeToken(userToken: string): UserWithToken {
     try {
-      const payloadBase64 = userToken.split('.')[1];
-      const payloadDecoded = JSON.parse(window.atob(payloadBase64)) as User;
+      const base64Payload = userToken.split('.')[1];
+      const decodedPayload = JSON.parse(window.atob(base64Payload)) as any;
 
-      return { ...payloadDecoded, token: userToken };
+      const userWithToken: UserWithToken = {
+        email: decodedPayload.sub, // Mapeia 'sub' para 'email'
+        access: decodedPayload.access, // Mapeia 'Access' (ajuste a capitalização se necessário)
+        status: decodedPayload.status, // Usa 'status' diretamente
+        token: userToken, // Inclui o token no objeto
+      };
+
+      return userWithToken;
     } catch (error) {
       console.error('Erro ao decodificar o token:', error);
-      return null;
+      throw new Error('Token inválido');
     }
   }
 
   private loadUserFromSessionStorage(): void {
     const userFromSession = sessionStorage.getItem(USER_SESSION_STORAGE_KEY);
-
-    userFromSession && this.pushNewUser(userFromSession);
-    /*
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      const userFromSession = sessionStorage.getItem(USER_SESSION_STORAGE_KEY);
-
-      if (userFromSession) {
-        this.pushNewUser(userFromSession);
-      }
-    } else {
-      console.warn('sessionStorage não está carregando disponível neste ambiente.');
+    //console.log('User from Local Storage:', userFromSession);
+    if(userFromSession) {
+      this.pushNewUser(userFromSession);
     }
-    */
   }
 
   private saveTokenToSessionStore(userToken: string): void {
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      sessionStorage.setItem(USER_SESSION_STORAGE_KEY, userToken);
-    } else {
-      console.warn('sessionStorage não está salvando disponível neste ambiente.');
-    }
+    sessionStorage.setItem(USER_SESSION_STORAGE_KEY, userToken);
   }
 
   private removeUserFromSessionStorage(): void {
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      sessionStorage.removeItem(USER_SESSION_STORAGE_KEY);
-    } else {
-      console.warn('sessionStorage não está removendo disponível neste ambiente.');
-    }
+    sessionStorage.removeItem(USER_SESSION_STORAGE_KEY);
+    this.user.next(null);
   }
 
 }

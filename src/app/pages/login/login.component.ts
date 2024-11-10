@@ -17,10 +17,11 @@ interface LoginForm {
   imports: [
     ReactiveFormsModule,
     DefaultLoginLayoutComponent,
-    PrimaryInputComponent ],
-    providers: [
-      AuthService
-    ],
+    PrimaryInputComponent
+  ],
+  providers: [
+    AuthService
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -43,9 +44,9 @@ export class LoginComponent {
       next: () => {
         //console.log("login realizado");
         this.toastService.success("Login realizado com sucesso!");
-        this.router.navigate(["home"]);
+        //this.router.navigate(["home"]);
       },
-      error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde.")
+      error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde."),
     })
   }
 

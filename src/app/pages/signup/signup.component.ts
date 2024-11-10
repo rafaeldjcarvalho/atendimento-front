@@ -23,7 +23,7 @@ interface SignupForm {
     DefaultLoginLayoutComponent,
     PrimaryInputComponent,
     PrimarySelectComponent
-],
+  ],
   providers: [
     AuthService
   ],
@@ -57,7 +57,7 @@ export class SignupComponent {
       this.authService.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.typeAccount).subscribe({
         next: () => {
           this.toastService.success("Conta criada com sucesso!");
-          this.router.navigate(["login"]);
+          //this.router.navigate(["login"]);
         },
         error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde.")
       })
