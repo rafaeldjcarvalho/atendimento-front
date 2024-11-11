@@ -1,0 +1,27 @@
+@import "../../../styles/variables.scss";
+
+.navbar {
+  background-color: $primary-color;
+
+  span {
+    font-weight: bold;
+    color: $text-color;
+  }
+
+  .space {
+    flex: 1 1 auto;
+  }
+
+  .icon-button{
+    color: $text-color;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .account {
+    font-size: 15px;
+  }
+
+}
+
+

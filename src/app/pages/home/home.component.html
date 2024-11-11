@@ -1,8 +1,7 @@
-<p>home works!</p>
 <div *ngIf="user$ | async as user; else notLoggedIn">
-  <h1>Bem-vindo, {{ user.email }}!</h1>
+  <app-header
+  [emailUser]="user.email"></app-header>
 </div>
 <ng-template #notLoggedIn>
   <h1>Você não está logado.</h1>
 </ng-template>
-<button (click)="loggout()">Loggout</button>
