@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { UserWithToken } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -18,9 +20,13 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  @Input() emailUser: string = '';
+  emailUser: string | undefined = '';
+  private user$: Observable<UserWithToken | null>;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    this.user$ = this.authService.user$;
+    this.user$.subscribe((user) => this.emailUser = user?.email )
+  }
 
   loggout() {
     this.authService.logout();

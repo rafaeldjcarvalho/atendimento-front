@@ -1,0 +1,26 @@
+@import "../../../styles/variables.scss";
+
+.container {
+  height: 90%;
+}
+
+.mat-drawer {
+  border-right: 1px solid rgba(0, 0, 0, 0.226);
+  background-color: $gray-secondary-bg;
+}
+
+.sidenav {
+  padding-left: 20px;
+  width: 250px;
+}
+
+.mat-icon {
+  margin-right: 10px;
+  color: $text-color;
+}
+
+span {
+  color: $text-color;
+  font-size: 20px;
+  font-weight: 500;
+}

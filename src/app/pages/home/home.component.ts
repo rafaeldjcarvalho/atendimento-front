@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { UserWithToken } from '../../interfaces/user.interface';
 import { HeaderComponent } from "../../components/header/header.component";
+import { SideNavComponent } from "../../components/side-nav/side-nav.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, SideNavComponent],
   providers: [
     AuthService
   ],
