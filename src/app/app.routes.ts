@@ -4,9 +4,10 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { HomeComponent } from './pages/home/home.component';
 import { IsLoggedInGuard } from './guards/is-logged.guard';
 import { hasAccess } from './guards/has-access.guard';
+import { DefaultAppLayoutComponent } from './components/default-app-layout/default-app-layout.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
   {
     path: 'login',
     component: LoginComponent
@@ -16,8 +17,14 @@ export const routes: Routes = [
     component: SignupComponent
   },
   {
-    path: "home",
-    component: HomeComponent,
-    //canActivate: [IsLoggedInGuard]
+    path: 'user',
+    component: DefaultAppLayoutComponent,
+    //canActivate: [IsLoggedInGuard],
+    children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      }
+    ]
   }
 ];

@@ -4,7 +4,12 @@
     <span class="space"></span>
     <button mat-button class="icon-button account" aria-label="User Access">
       <mat-icon>account_circle</mat-icon>
-      {{ emailUser }}
+      @if(emailUser == undefined) {
+        <span>Não Logado</span>
+      }
+      @else {
+        {{ emailUser }}
+      }
     </button>
     <button mat-icon-button class="icon-button" aria-label="Loggout" (click)="loggout()">
       <mat-icon>logout</mat-icon>

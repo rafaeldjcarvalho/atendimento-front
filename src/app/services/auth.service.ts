@@ -32,7 +32,7 @@ export class AuthService {
         this.pushNewUser(userToken.token);
       }),
       switchMap(() => this.isLoggedIn$.pipe(take(1))), // Aguarda o estado de login
-      tap(() => this.redirectTo("home")),
+      tap(() => this.redirectTo("user/home")),
       //ignoreElements()
     );
   }
