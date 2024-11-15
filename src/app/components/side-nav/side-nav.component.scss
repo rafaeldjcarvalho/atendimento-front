@@ -19,8 +19,13 @@
   color: $text-color;
 }
 
-span {
+.container-item {
+  display: flex;
+  align-items: center;
   color: $text-color;
-  font-size: 20px;
-  font-weight: 500;
+
+  span {
+    font-size: 20px;
+    font-weight: 500;
+  }
 }
