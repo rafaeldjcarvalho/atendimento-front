@@ -37,8 +37,8 @@ export class AuthService {
     );
   }
 
-  signup(name: string, email: string, password: string, typeAcess: string){
-    return this.httpClient.post<LoginResponse>(this.apiUrl + "/register", { name, email, password, typeAcess }).pipe(
+  signup(name: string, email: string, password: string, typeAccess: string){
+    return this.httpClient.post<LoginResponse>(this.apiUrl + "/register", { name, email, password, typeAccess }).pipe(
       tap(() => {
         this.redirectTo("login");
       })
