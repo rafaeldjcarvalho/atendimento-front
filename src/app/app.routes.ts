@@ -5,6 +5,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { IsLoggedInGuard } from './guards/is-logged.guard';
 import { hasAccess } from './guards/has-access.guard';
 import { DefaultAppLayoutComponent } from './components/default-app-layout/default-app-layout.component';
+import { ClassDetailsComponent } from './components/class/class-details/class-details.component';
+import { ClassListComponent } from './components/class/class-list/class-list.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -23,7 +25,15 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent
+        component: ClassListComponent
+      },
+      {
+        path: 'class/new',
+        component: ClassDetailsComponent
+      },
+      {
+        path: 'class/edit/:id',
+        component: ClassDetailsComponent
       }
     ]
   }
