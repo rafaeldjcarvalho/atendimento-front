@@ -1,0 +1,40 @@
+.card {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-card-content {
+  margin-top: 10px;
+}
+
+.button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+
+.full-width{
+  width: 100%;
+}
+
+.min-width {
+  width: 100%;
+  min-width: 150px;
+}
+
+.form-array-error {
+  text-align: left;
+}
+
+.btn-space {
+  margin-left: 5px;
+}
+
+.actions-center {
+  justify-content: center;
+}

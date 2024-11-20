@@ -1,1 +1,29 @@
-<p>class-list works!</p>
+<mat-card class="card">
+  <mat-toolbar color="primary">
+    Turmas Disponíveis
+    <div class="space"></div>
+    <button mat-flat-button color="" routerLink="/user/class/new">New</button>
+  </mat-toolbar>
+
+  <div class="container">
+    @for (class of list; track $index) {
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>{{ class.name }}</mat-card-title>
+            <mat-card-subtitle>{{ class.date }}</mat-card-subtitle>
+            <div class="button-row">
+              <button mat-raised-button routerLink="/user/class/edit/{{ class.id }}">Edit</button>
+              <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+            </div>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          Created by {{ class.owner.name }}
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</mat-card>
+
+

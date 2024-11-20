@@ -1,0 +1,27 @@
+@import "../../../../styles/variables.scss";
+
+.card {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-card {
+  margin: 5px;
+}
+
+.button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+
+.space {
+  flex: 1 1 auto;
+}
+
+

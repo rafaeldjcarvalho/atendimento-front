@@ -1,6 +1,6 @@
 export interface Class {
   id: number,
   name: string,
-  date: Date,
-  owner: { id: number}
+  date: string,
+  owner: { id: number, name: string}
 }

@@ -1,1 +1,28 @@
-<p>class-details works!</p>
+<mat-card class="card">
+  <mat-toolbar color="primary">
+    Cadastrar Turma
+  </mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="classForm" class="min-width">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Nome" formControlName="name" #name />
+        @if (classForm.get('name')?.invalid) {
+        <mat-error>{{ formUtils.getErrorMessage(classForm, "name") }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput disabled="true" type="date" value="{{ classForm.value.date }}"/>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions class="actions-center button-row">
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      Salvar
+    </button>
+    <button mat-raised-button (click)="onCancel()" class="btn-space">
+      Cancelar
+    </button>
+  </mat-card-actions>
+</mat-card>
