@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { Class } from '../../../interfaces/class.interface';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClassService } from '../../../services/class/class.service';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { ClassPage } from '../../../interfaces/class-page.interface';
@@ -18,7 +18,6 @@ import { MatDialog } from '@angular/material/dialog';
   selector: 'app-class-list',
   standalone: true,
   imports: [
-    RouterLink,
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
