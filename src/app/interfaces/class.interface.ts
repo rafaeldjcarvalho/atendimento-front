@@ -1,6 +1,8 @@
+import { User } from "./user.interface";
+
 export interface Class {
-  id: number,
+  id: string,
   name: string,
   date: string,
-  owner: { id: number, name: string}
+  owner?: User
 }

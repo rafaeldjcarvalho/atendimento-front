@@ -66,6 +66,8 @@ export class AuthService {
 
       const userWithToken: UserWithToken = {
         email: decodedPayload.sub, // Mapeia 'sub' para 'email'
+        id: decodedPayload.id,
+        name: decodedPayload.name,
         access: decodedPayload.access, // Mapeia 'Access' (ajuste a capitalização se necessário)
         status: decodedPayload.status, // Usa 'status' diretamente
         token: userToken, // Inclui o token no objeto
