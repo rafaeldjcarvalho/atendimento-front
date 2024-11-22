@@ -47,4 +47,12 @@ export class ClassService {
   remove(id: string) {
     return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
   }
+
+  subscribeUser(classId: string, userId: string) {
+    return this.httpClient.post(`${this.API}/${classId}/add-user/${userId}`, null).pipe(first());
+  }
+
+  cancelSubscribe(classId: string, userId: string) {
+    return this.httpClient.post(`${this.API}/${classId}/remove-user/${userId}`, null).pipe(first());
+  }
 }

@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/auth.service';
 import { DialogConfirmationComponent } from './../../../components/dialog-confirmation/dialog-confirmation.component';
 import { Component, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -6,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Class } from '../../../interfaces/class.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClassService } from '../../../services/class/class.service';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, first, map, Observable, of, tap } from 'rxjs';
 import { ClassPage } from '../../../interfaces/class-page.interface';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
@@ -39,6 +40,7 @@ export class ClassListComponent {
 
   constructor(
     private classService: ClassService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -89,6 +91,23 @@ export class ClassListComponent {
         );
       }
     });
+  }
+
+  onSubscribe(classes: Class) {
+    console.log("apertou o botão");
+    this.authService.user$.pipe(
+      first(),
+      map((user) => {
+        const userId = user?.id;
+        console.log("Colocou o id do usuário");
+        if (userId) {
+          this.classService.subscribeUser(classes.id, userId).subscribe({
+            next: () => this.toastService.success("Inscrição realizada com sucesso"),
+            error: () => this.toastService.error("Inscrição não foi realizada."),
+          });
+        }
+      })
+    ).subscribe();
   }
 
 }

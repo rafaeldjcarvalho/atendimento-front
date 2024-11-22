@@ -20,7 +20,10 @@
             </mat-card-title-group>
           </mat-card-header>
           <mat-card-content>
-            Created by {{ classItem.owner?.name }}
+            <span>Created by {{ classItem.owner?.name }}</span>
+            <span class="space"></span>
+            <!-- Só deve aparecer se a turma não estiver na lista de turmas do usuário logado-->
+            <button mat-raised-button (click)="onSubscribe(classItem)">Subscribe</button>
           </mat-card-content>
         </mat-card>
       }

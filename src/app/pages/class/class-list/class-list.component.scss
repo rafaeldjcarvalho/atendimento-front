@@ -4,10 +4,16 @@
   max-width: 90%;
   margin: 2em auto;
   text-align: center;
+  color: $text-color;
 }
 
 mat-card {
   margin: 5px;
+}
+
+mat-card-content {
+  display: flex;
+  justify-content: space-between;
 }
 
 .button-row {
