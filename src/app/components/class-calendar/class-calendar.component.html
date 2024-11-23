@@ -1,0 +1,13 @@
+<div>
+  <span>{{ clazz.name }}</span>
+  <label for="calendarSelect">Selecionar Calendário:</label>
+  <select id="calendarSelect" [(ngModel)]="selectedCalendarId" (change)="onCalendarChange(selectedCalendarId)">
+    <option *ngFor="let calendar of calendars" [value]="calendar.id">
+      {{ calendar.ownerName }}
+    </option>
+  </select>
+</div>
+
+<div *ngIf="calendarOptions">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>

@@ -11,7 +11,7 @@
         <mat-card appearance="outlined">
           <mat-card-header>
             <mat-card-title-group>
-              <mat-card-title>{{ classItem.name }}</mat-card-title>
+              <mat-card-title><a routerLink='/user/class/{{ classItem.id }}' >{{ classItem.name }}</a></mat-card-title>
               <mat-card-subtitle>{{ classItem.date }}</mat-card-subtitle>
               <div class="button-row">
                 <button mat-raised-button (click)="onEdit(classItem)">Edit</button>

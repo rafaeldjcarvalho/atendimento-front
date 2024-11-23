@@ -55,4 +55,12 @@ export class ClassService {
   cancelSubscribe(classId: string, userId: string) {
     return this.httpClient.post(`${this.API}/${classId}/remove-user/${userId}`, null).pipe(first());
   }
+
+  getCalendars(classId: string) {
+    return this.httpClient.get<any[]>(`http://localhost:8080/api/class/${classId}/calendars`);
+  }
+
+  getSchedules(calendarId: number) {
+    return this.httpClient.get<any[]>(`http://localhost:8080/api/calendar/${calendarId}/schedules`);
+  }
 }

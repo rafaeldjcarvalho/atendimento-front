@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { Class } from '../../../interfaces/class.interface';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ClassService } from '../../../services/class/class.service';
 import { catchError, first, map, Observable, of, tap } from 'rxjs';
 import { ClassPage } from '../../../interfaces/class-page.interface';
@@ -24,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatButtonModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    RouterLink,
     AsyncPipe
   ],
   templateUrl: './class-list.component.html',
