@@ -57,10 +57,18 @@ export class ClassService {
   }
 
   getCalendars(classId: string) {
-    return this.httpClient.get<any[]>(`http://localhost:8080/api/class/${classId}/calendars`);
+    return this.httpClient.get<any[]>(`${this.API}/${classId}/calendars`);
   }
 
   getSchedules(calendarId: number) {
     return this.httpClient.get<any[]>(`http://localhost:8080/api/calendar/${calendarId}/schedules`);
+  }
+
+  addCalendar(classId: string, calendarDTO: any) {
+    return this.httpClient.post(`${this.API}/${classId}/calendars`, calendarDTO).pipe(first());
+  }
+
+  removeCalendar(classId: string, calendarId: number) {
+    return this.httpClient.delete(`${this.API}/${classId}/calendars/${calendarId}`).pipe(first());
   }
 }

@@ -95,12 +95,12 @@ export class ClassListComponent {
   }
 
   onSubscribe(classes: Class) {
-    console.log("apertou o botão");
+    //console.log("apertou o botão");
     this.authService.user$.pipe(
       first(),
       map((user) => {
         const userId = user?.id;
-        console.log("Colocou o id do usuário");
+        //console.log("Colocou o id do usuário");
         if (userId) {
           this.classService.subscribeUser(classes.id, userId).subscribe({
             next: () => this.toastService.success("Inscrição realizada com sucesso"),

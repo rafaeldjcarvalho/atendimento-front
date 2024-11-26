@@ -1,17 +1,23 @@
 <div>
-  <label for="calendarSelect">Selecionar Calendário:</label>
-  <select id="calendarSelect" [(ngModel)]="selectedCalendarId" (change)="onCalendarChange(selectedCalendarId)">
-    <option *ngFor="let calendar of calendars" [value]="calendar.id">
-      {{ calendar.ownerName }}
-    </option>
-  </select>
+  <mat-form-field class="full-width">
+    <mat-label>Selecionar Calendário: </mat-label>
+    <mat-select id="calendarSelect" [(ngModel)]="selectedCalendarId" (selectionChange)="onCalendarChange(selectedCalendarId)">
+      @for (calendar of calendars; track $index) {
+        <mat-option [value]="calendar.id">
+          {{ calendar.ownerName }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 </div>
 
-<div *ngIf="calendarOptions">
-  <div class="btn-left">
-    <button mat-raised-button color="primary">
-      Delete Calendar
-    </button>
+@if (calendarOptions) {
+  <div>
+    <full-calendar [options]="calendarOptions"></full-calendar>
+    <div class="btn-left">
+      <button mat-raised-button color="primary" (click)="onRemoveCalendar()">
+        Delete Calendar
+      </button>
+    </div>
   </div>
-  <full-calendar [options]="calendarOptions"></full-calendar>
-</div>
+}

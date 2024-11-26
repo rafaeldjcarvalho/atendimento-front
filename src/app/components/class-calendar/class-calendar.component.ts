@@ -1,12 +1,16 @@
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
-import { Class } from '../../interfaces/class.interface';
 import { ClassService } from '../../services/class/class.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-class-calendar',
@@ -14,7 +18,9 @@ import { FormsModule } from '@angular/forms';
   imports: [
     FullCalendarModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule,
+    MatButtonModule
   ],
   templateUrl: './class-calendar.component.html',
   styleUrl: './class-calendar.component.scss'
@@ -35,7 +41,10 @@ export class ClassCalendarComponent {
 
   @Input() classId!: string;
 
-  constructor(private classService: ClassService) {}
+  constructor(
+    private classService: ClassService,
+    public dialog: MatDialog,
+    private toastService: ToastrService) {}
 
   ngOnInit(): void {
     this.loadCalendars();
@@ -115,13 +124,32 @@ export class ClassCalendarComponent {
     const days: { [key: string]: number } = {
       DOMINGO: 0,
       SEGUNDA: 1,
-      TERCA: 2,
+      TERÇA: 2,
       QUARTA: 3,
       QUINTA: 4,
       SEXTA: 5,
-      SABADO: 6,
+      SÁBADO: 6,
     };
     return days[day.toUpperCase()] ?? -1; // Retorna -1 se o dia for inválido
+  }
+
+  onRemoveCalendar() {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      data: 'Tem certeza que deseja remover esse calendário?',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.classService.removeCalendar(this.classId, this.selectedCalendarId).subscribe({
+          next: () => {
+            this.loadCalendars();
+            //window.location.reload();
+            this.toastService.success("Calendário removido com sucesso")
+          },
+          error: () => this.toastService.error('Erro ao tentar remover calendário.')
+        });
+      }
+    });
   }
 
 }
