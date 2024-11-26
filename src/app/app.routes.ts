@@ -8,6 +8,7 @@ import { ClassListComponent } from './pages/class/class-list/class-list.componen
 import { ClassDetailsComponent } from './pages/class/class-details/class-details.component';
 import { ClassResolver } from './guards/class.resolver';
 import { ClassPrincipalComponent } from './pages/class/class-principal/class-principal.component';
+import { CalendarFormComponent } from './pages/class/calendar-form/calendar-form.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -27,7 +28,8 @@ export const routes: Routes = [
       { path: 'home', component: ClassListComponent },
       { path: 'class/new', component: ClassDetailsComponent, resolve: { classes: ClassResolver } },
       { path: 'class/edit/:id', component: ClassDetailsComponent, resolve: { classes: ClassResolver }},
-      { path: 'class/:id', component: ClassPrincipalComponent, resolve: { classes: ClassResolver }}
+      { path: 'class/:id', component: ClassPrincipalComponent, resolve: { classes: ClassResolver }},
+      { path: 'class/:id/newCalendar', component: CalendarFormComponent }
     ]
   }
 ];

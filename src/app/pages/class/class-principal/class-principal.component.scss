@@ -1,0 +1,23 @@
+@import '../../../../styles/variables.scss';
+
+.card {
+  max-width: 95%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.bg-color {
+  background-color: $gray-bg;
+}
+
+.btn-left {
+  margin: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+mat-card-footer {
+  margin: 5px;
+  padding: 10px;
+  justify-content: center;
+}

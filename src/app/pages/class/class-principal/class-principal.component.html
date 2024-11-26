@@ -1,2 +1,22 @@
-<app-class-calendar
-  [clazz]="getClass"></app-class-calendar>
+<mat-card class="card bg-color">
+  <mat-toolbar color="primary">
+    Welcome to {{ clazz.name }}
+  </mat-toolbar>
+  <div class="btn-left">
+    <button mat-raised-button color="primary" (click)="onAddCalendar(clazz.id)">
+      New Calendar
+    </button>
+  </div>
+  <mat-card-content>
+    <mat-card>
+        <mat-card-content>
+          <app-class-calendar
+          [classId]="clazz.id">
+          </app-class-calendar>
+        </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+  <mat-card-footer>
+    Created by {{ clazz.owner?.name}} / {{ clazz.owner?.email }}
+  </mat-card-footer>
+</mat-card>

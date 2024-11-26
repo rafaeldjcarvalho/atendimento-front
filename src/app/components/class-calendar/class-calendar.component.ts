@@ -33,7 +33,7 @@ export class ClassCalendarComponent {
   selectedCalendarId!: number;
   calendars: any[] = [];
 
-  @Input() clazz!: Class;
+  @Input() classId!: string;
 
   constructor(private classService: ClassService) {}
 
@@ -43,7 +43,7 @@ export class ClassCalendarComponent {
 
   loadCalendars(): void {
   // Substitua pelo ID da turma dinâmica
-    this.classService.getCalendars(this.clazz.id).subscribe((calendars) => {
+    this.classService.getCalendars(this.classId).subscribe((calendars) => {
       this.calendars = calendars;
       //console.log(calendars);
     });
