@@ -34,6 +34,8 @@ export class ClassListComponent {
 
   classList$: Observable<ClassPage> | null = null;
 
+  userClassIds: Set<string> = new Set();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageIndex = 0;
@@ -62,6 +64,24 @@ export class ClassListComponent {
           return of({ classes: [], totalElements: 0, totalPages: 0 })
         })
       );
+    this.authService.user$.pipe(first()).subscribe(user => {
+      if (user) {
+        this.classService.getClassesUser(user.id).pipe(
+          first(), // Garante que a chamada HTTP seja feita apenas uma vez
+          tap(userClasses => {
+            this.userClassIds = new Set(userClasses.map(userClass => userClass.id));
+          }),
+          catchError(error => {
+            this.onError('Erro ao carregar turmas do usuário.');
+            return of([]);
+          })
+        ).subscribe();
+      }
+    });
+  }
+
+  isClassInUserClasses(classItem: Class): boolean {
+    return this.userClassIds.has(classItem.id);
   }
 
   onError(errorMsg: string) {
@@ -103,12 +123,37 @@ export class ClassListComponent {
         //console.log("Colocou o id do usuário");
         if (userId) {
           this.classService.subscribeUser(classes.id, userId).subscribe({
-            next: () => this.toastService.success("Inscrição realizada com sucesso"),
+            next: () => {
+              this.refresh();
+              this.toastService.success("Inscrição realizada com sucesso");
+            },
             error: () => this.toastService.error("Inscrição não foi realizada."),
           });
         }
       })
     ).subscribe();
+  }
+
+  onUnSubscribe(classes: Class) {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      data: 'Tem certeza que deseja cancelar a inscrição?',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.authService.user$.subscribe(user => {
+          if(user) {
+            this.classService.cancelSubscribe(classes.id, user.id).subscribe({
+              next: () => {
+                this.refresh();
+                this.toastService.success("Inscrição cancelada com sucesso");
+              },
+              error: () => this.toastService.error("Erro! Inscrição não removida."),
+            })
+          }
+        })
+      }
+    });
   }
 
 }

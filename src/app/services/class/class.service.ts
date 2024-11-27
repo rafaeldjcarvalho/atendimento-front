@@ -52,8 +52,12 @@ export class ClassService {
     return this.httpClient.post(`${this.API}/${classId}/add-user/${userId}`, null).pipe(first());
   }
 
+  getClassesUser(userId: string) {
+    return this.httpClient.get<Class[]>(`${this.API}/class-user/${userId}`);
+  }
+
   cancelSubscribe(classId: string, userId: string) {
-    return this.httpClient.post(`${this.API}/${classId}/remove-user/${userId}`, null).pipe(first());
+    return this.httpClient.delete(`${this.API}/${classId}/remove-user/${userId}`).pipe(first());
   }
 
   getCalendars(classId: string) {
