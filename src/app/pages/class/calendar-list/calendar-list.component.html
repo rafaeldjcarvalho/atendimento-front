@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-header class="btn-left">
+      <button mat-raised-button color="primary" (click)="addCalendar()">
+        New Calendar
+      </button>
+  </mat-card-header>
+
+  <mat-card-content>
+    <app-class-calendar
+    [classId]="idClass">
+    </app-class-calendar>
+  </mat-card-content>
+</mat-card>

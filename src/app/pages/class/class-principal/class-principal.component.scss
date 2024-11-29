@@ -7,13 +7,11 @@
 }
 
 .bg-color {
-  background-color: $gray-bg;
+  background-color: #FAF9FD;
 }
 
-.btn-left {
-  margin: 10px;
-  display: flex;
-  justify-content: flex-end;
+mat-tab-group{
+  text-align: left;
 }
 
 mat-card-footer {

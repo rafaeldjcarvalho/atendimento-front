@@ -1,21 +1,28 @@
 <mat-card class="card bg-color">
   <mat-toolbar color="primary">
-    Welcome to {{ clazz.name }}
+    <span>Welcome to {{ clazz.name }}</span>
   </mat-toolbar>
-  <div class="btn-left">
-    <button mat-raised-button color="primary" (click)="onAddCalendar(clazz.id)">
-      New Calendar
-    </button>
-  </div>
+
   <mat-card-content>
-    <mat-card>
-        <mat-card-content>
-          <app-class-calendar
-          [classId]="clazz.id">
-          </app-class-calendar>
-        </mat-card-content>
-    </mat-card>
+    <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="center">
+      <mat-tab label="Calendários">
+        <app-calendar-list
+          [idClass]="clazz.id"
+          (addCalendar)="onAddCalendar(clazz.id)"
+        >
+        </app-calendar-list>
+      </mat-tab>
+
+      <mat-tab label="Pedidos Atendimento">
+        Pedidos Atendimento
+      </mat-tab>
+
+      <mat-tab label="Pessoas">
+        Pessoas
+      </mat-tab>
+    </mat-tab-group>
   </mat-card-content>
+
   <mat-card-footer>
     Created by {{ clazz.owner?.name}} / {{ clazz.owner?.email }}
   </mat-card-footer>
