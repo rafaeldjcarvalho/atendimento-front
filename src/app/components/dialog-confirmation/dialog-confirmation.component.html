@@ -1,9 +1,12 @@
-<div mat-dialog-content>
+<h2 mat-dialog-title>Confirme sua Ação</h2>
+<mat-dialog-content>
   <p>{{ data }}</p>
-</div>
-<div mat-dialog-actions align="center">
-  <button mat-raised-button (click)="onConfirm(true)" color="primary">
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button cdkFocusInitial (click)="onConfirm(true)" color="primary">
     Sim
   </button>
-  <button mat-raised-button (click)="onConfirm(false)" color="warn">Não</button>
-</div>
+  <button mat-raised-button (click)="onConfirm(false)" color="warn">
+    Não
+  </button>
+</mat-dialog-actions>

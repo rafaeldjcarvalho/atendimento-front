@@ -35,7 +35,7 @@ export class ClassCalendarComponent {
   */
 
 
-  calendarOptions!: CalendarOptions;
+  calendarOptions?: CalendarOptions;
   selectedCalendarId!: number;
   calendars: any[] = [];
 
@@ -142,8 +142,11 @@ export class ClassCalendarComponent {
       if (result) {
         this.classService.removeCalendar(this.classId, this.selectedCalendarId).subscribe({
           next: () => {
+            this.calendarOptions = undefined;
             this.loadCalendars();
             //window.location.reload();
+            //const trigger = document.querySelector('mat-select#calendarSelect');
+            //(trigger as HTMLElement)?.focus();
             this.toastService.success("Calendário removido com sucesso")
           },
           error: () => this.toastService.error('Erro ao tentar remover calendário.')
