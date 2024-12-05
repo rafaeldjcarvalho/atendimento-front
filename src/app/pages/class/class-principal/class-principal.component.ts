@@ -6,7 +6,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CalendarListComponent } from "../calendar-list/calendar-list.component";
-import { ServiceListComponent } from "../../../components/service-list/service-list.component";
 import { OrderListComponent } from "../order-list/order-list.component";
 
 @Component({
@@ -18,7 +17,6 @@ import { OrderListComponent } from "../order-list/order-list.component";
     MatButtonModule,
     MatTabsModule,
     CalendarListComponent,
-    ServiceListComponent,
     OrderListComponent
 ],
   templateUrl: './class-principal.component.html',
