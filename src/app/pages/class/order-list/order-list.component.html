@@ -1,0 +1,26 @@
+@if (orders$ | async; as orders) {
+  <div>
+    <app-service-list
+      topico="Pedido de Atendimento"
+      [itensList]="orders.orders"
+      (add)="onAdd()"
+      (edit)="onEdit($event)"
+      (remove)="onRemove($event)"
+    >
+    </app-service-list>
+    <mat-paginator
+      [pageSizeOptions]="[6, 12, 18]"
+      showFirstLastButtons
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [length]="orders.totalElements"
+      (page)="refresh($event)"
+      aria-label="Select page of orders"
+    >
+    </mat-paginator>
+  </div>
+} @else {
+  <div class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+}
