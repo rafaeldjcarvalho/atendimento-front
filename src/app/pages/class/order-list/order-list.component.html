@@ -1,3 +1,16 @@
+<div class="container">
+  <mat-form-field class="full-width">
+    <mat-label>Filtro: </mat-label>
+    <mat-select
+      id="serviceSelected"
+      [(value)]="serviceSelectedId"
+      (selectionChange)="onServiceChange(serviceSelectedId)">
+        <mat-option [value]="0" >Todos os Dados</mat-option>
+        <mat-option [value]="1" >Apenas os Dados do Usuário</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
 @if (orders$ | async; as orders) {
   <div>
     <app-service-list

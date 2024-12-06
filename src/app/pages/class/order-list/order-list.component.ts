@@ -8,10 +8,12 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderPage } from '../../../interfaces/order-page.interface';
 import { OrderService } from '../../../interfaces/orderService.interface';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ServiceListComponent } from "../../../components/service-list/service-list.component";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-order-list',
@@ -20,7 +22,9 @@ import { AuthService } from '../../../services/auth.service';
     AsyncPipe,
     ServiceListComponent,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FormsModule,
+    MatSelectModule
 ],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.scss'
@@ -28,6 +32,8 @@ import { AuthService } from '../../../services/auth.service';
 export class OrderListComponent implements AfterViewInit {
 
   orders$: Observable<OrderPage> | null = null;
+
+  serviceSelectedId: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -51,18 +57,40 @@ export class OrderListComponent implements AfterViewInit {
     this.refresh();
   }
 
+  onServiceChange(serviceId: number): void {
+    this.serviceSelectedId = serviceId;
+    this.refresh();
+  }
+
   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 12 }) {
-    this.orders$ = this.orderServiceService.listByClass(this.idClass, pageEvent.pageIndex, pageEvent.pageSize)
-    .pipe(
-      tap(() => {
-        this.pageIndex = pageEvent.pageIndex;
-        this.pageSize = pageEvent.pageSize;
-      }),
-      catchError(error => {
-        this.onError('Erro ao carregar pedidos.');
-        return of({ orders: [], totalElements: 0, totalPages: 0 })
-      })
-    );
+    if(this.serviceSelectedId == 0) {
+      this.orders$ = this.orderServiceService.listByClass(this.idClass, pageEvent.pageIndex, pageEvent.pageSize)
+        .pipe(
+          tap(() => {
+            this.pageIndex = pageEvent.pageIndex;
+            this.pageSize = pageEvent.pageSize;
+          }),
+          catchError(error => {
+            this.onError('Erro ao carregar pedidos.');
+            return of({ orders: [], totalElements: 0, totalPages: 0 })
+          })
+        );
+    } else {
+      const userId = this.getUserLogado();
+      if(userId != null) {
+        this.orders$ = this.orderServiceService.listByUser(userId, pageEvent.pageIndex, pageEvent.pageSize)
+          .pipe(
+            tap(() => {
+              this.pageIndex = pageEvent.pageIndex;
+              this.pageSize = pageEvent.pageSize;
+            }),
+            catchError(error => {
+              this.onError('Erro ao carregar pedidos.');
+              return of({ orders: [], totalElements: 0, totalPages: 0 })
+            })
+          );
+      }
+    }
   }
 
   onError(errorMsg: string) {

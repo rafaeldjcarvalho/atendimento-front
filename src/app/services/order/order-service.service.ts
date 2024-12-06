@@ -51,7 +51,7 @@ export class OrderServiceService {
     return this.httpClient.get<OrderPage>(`${this.API}/class/${classId}`, { params: { page, pageSize } })
       .pipe(
         first(),
-        delay(5000)
+        delay(2000)
       );
   }
 
@@ -59,7 +59,7 @@ export class OrderServiceService {
     return this.httpClient.get<OrderPage>(`${this.API}/user/${userId}`, { params: { page, pageSize } })
       .pipe(
         first(),
-        //delay(5000)
+        delay(2000)
       );
   }
 }
