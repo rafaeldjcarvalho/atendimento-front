@@ -9,5 +9,5 @@ export interface OrderService {
   time_end: string,
   status: ServiceStatus,
   classId: string,
-  ownerId: string
+  userId: string
 }

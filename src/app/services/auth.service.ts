@@ -50,6 +50,11 @@ export class AuthService {
     this.user.next(null);
   }
 
+  getLoggedInUserId(): string | null {
+    const currentUser = this.user.getValue();
+    return currentUser ? currentUser.id : null;
+  }
+
   private redirectTo(page: string): void {
     this.router.navigate([page]);
   }

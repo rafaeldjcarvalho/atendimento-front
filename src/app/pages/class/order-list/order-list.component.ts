@@ -11,6 +11,7 @@ import { DialogConfirmationComponent } from '../../../components/dialog-confirma
 import { AsyncPipe } from '@angular/common';
 import { ServiceListComponent } from "../../../components/service-list/service-list.component";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-order-list',
@@ -37,6 +38,7 @@ export class OrderListComponent implements AfterViewInit {
 
   constructor(
     private orderServiceService: OrderServiceService,
+    private authService: AuthService,
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
@@ -68,20 +70,16 @@ export class OrderListComponent implements AfterViewInit {
   }
 
   onAdd() {
-    console.log("novo");
-    //this.router.navigate(['/user/class/new']);
+    this.router.navigate(['/user/class/', this.idClass, 'newOrder']);
   }
 
   onEdit(order: OrderService) {
-    console.log("editar");
-    //this.router.navigate(['/user/class/edit', order.id]);
+    this.router.navigate(['/user/class/', order.classId, 'editOrder', order.id]);
   }
 
   onRemove(order: OrderService) {
-    console.log("reomver");
-    /*
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
-      data: 'Tem certeza que deseja remover essa turma?',
+      data: 'Tem certeza que deseja remover esse Pedido?',
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -89,13 +87,16 @@ export class OrderListComponent implements AfterViewInit {
         this.orderServiceService.remove(order.id).subscribe(
           () => {
             this.refresh();
-            this.toastService.success("Turma removida com sucesso");
+            this.toastService.success("Pedido removido com sucesso");
           },
-          () => this.onError('Erro ao tentar remover turma.')
+          () => this.onError('Erro ao tentar remover o pedido.')
         );
       }
     });
-    */
+  }
+
+  getUserLogado() {
+    return this.authService.getLoggedInUserId();
   }
 
 }

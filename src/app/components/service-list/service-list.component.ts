@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { OrderService } from '../../interfaces/orderService.interface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-service-list',
@@ -12,13 +13,15 @@ import { OrderService } from '../../interfaces/orderService.interface';
     MatToolbarModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    DatePipe
   ],
   templateUrl: './service-list.component.html',
   styleUrl: './service-list.component.scss'
 })
 export class ServiceListComponent {
 
+  @Input() userLogged: string | null = null;
   @Input() topico: string = '';
   @Input() itensList: OrderService[] = [];
 
@@ -37,5 +40,4 @@ export class ServiceListComponent {
   onDelete(order: OrderService) {
     this.remove.emit(order);
   }
-
 }

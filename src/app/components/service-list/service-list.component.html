@@ -14,15 +14,17 @@
             <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{ order.title }}</mat-card-title>
-                  <mat-card-subtitle>{{ order.date }} | {{order.time_start}} - {{order.time_end}}</mat-card-subtitle>
-                  <div class="button-row">
-                    <button mat-mini-fab aria-label="Edit" (click)="onEdit(order)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-mini-fab aria-label="Delete" (click)="onDelete(order)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
+                  <mat-card-subtitle>{{ order.date | date: 'dd/MM/yyyy' }} | {{order.time_start}} - {{order.time_end}}</mat-card-subtitle>
+                  @if (userLogged != null && userLogged == order.userId) {
+                    <div class="button-row">
+                      <button mat-mini-fab aria-label="Edit" (click)="onEdit(order)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-mini-fab aria-label="Delete" (click)="onDelete(order)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  }
                 </mat-card-title-group>
             </mat-card-header>
 

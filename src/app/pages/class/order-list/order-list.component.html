@@ -1,6 +1,7 @@
 @if (orders$ | async; as orders) {
   <div>
     <app-service-list
+      [userLogged]="getUserLogado()"
       topico="Pedido de Atendimento"
       [itensList]="orders.orders"
       (add)="onAdd()"

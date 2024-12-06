@@ -11,9 +11,10 @@ import { catchError, first, map, Observable, of, tap } from 'rxjs';
 import { ClassPage } from '../../../interfaces/class-page.interface';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-class-list',
@@ -22,10 +23,12 @@ import { MatDialog } from '@angular/material/dialog';
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
+    MatIconModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     RouterLink,
-    AsyncPipe
+    AsyncPipe,
+    DatePipe
   ],
   templateUrl: './class-list.component.html',
   styleUrl: './class-list.component.scss'
@@ -154,6 +157,10 @@ export class ClassListComponent {
         })
       }
     });
+  }
+
+  getUserLogged() {
+    return this.authService.getLoggedInUserId();
   }
 
 }

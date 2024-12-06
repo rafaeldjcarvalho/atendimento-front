@@ -1,0 +1,58 @@
+<mat-card class="card">
+    <mat-toolbar>
+        <span>Criar Pedido</span>
+    </mat-toolbar>
+
+    <mat-card-content>
+      <form [formGroup]="orderForm" class="min-width">
+        <mat-form-field class="full-width">
+          <mat-label>Título</mat-label>
+          <input matInput placeholder="Title" formControlName="title" #title />
+          @if (orderForm.get('title')?.invalid) {
+          <mat-error>{{ formUtils.getErrorMessage(orderForm, "title") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Descrição</mat-label>
+          <input matInput placeholder="Description" formControlName="description" #description />
+          @if (orderForm.get('description')?.invalid) {
+          <mat-error>{{ formUtils.getErrorMessage(orderForm, "description") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Data</mat-label>
+          <input matInput type="date" placeholder="Date" formControlName="date" #date />
+          @if (orderForm.get('date')?.invalid) {
+          <mat-error>{{ formUtils.getErrorMessage(orderForm, "date") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Horário inicial</mat-label>
+          <input matInput type="time" placeholder="Time_Start" formControlName="time_start" #time_start />
+          @if (orderForm.get('time_start')?.invalid) {
+          <mat-error>{{ formUtils.getErrorMessage(orderForm, "time_start") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Horário final</mat-label>
+          <input matInput type="time" placeholder="Time_End" formControlName="time_end" #time_end />
+          @if (orderForm.get('time_end')?.invalid) {
+          <mat-error>{{ formUtils.getErrorMessage(orderForm, "time_end") }}</mat-error>
+          }
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="actions-center">
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        Salvar
+      </button>
+      <button mat-raised-button (click)="onCancel()" class="btn-space">
+        Cancelar
+      </button>
+    </mat-card-actions>
+</mat-card>
