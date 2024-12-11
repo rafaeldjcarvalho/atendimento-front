@@ -45,10 +45,19 @@
         }
       </mat-form-field>
 
-      <!-- Criar um seletor que liste os alunos da classe e coloque o id do aluno na variavel studentId do formulário -->
-      @if(serviceForm.get('studentId') == null){
-        <p>Studante vazio</p>
-      }
+      <mat-form-field class="full-width">
+        <mat-label>Aluno</mat-label>
+        <mat-select formControlName="studentId" placeholder="Selecione um aluno">
+          @for (student of ListUserInClass; track $index) {
+            <mat-option [value]="student.id">
+              {{ student.name }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (serviceForm.get('studentId')?.invalid) {
+        <mat-error>{{ formUtils.getErrorMessage(serviceForm, "studentId") }}</mat-error>
+        }
+      </mat-form-field>
     </form>
   </mat-card-content>
 

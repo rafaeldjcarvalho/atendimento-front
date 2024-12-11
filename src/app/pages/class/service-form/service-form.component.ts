@@ -8,9 +8,13 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { FormUtilsService } from '../../../services/form/form-utils.service';
 import { CustomerServiceService } from '../../../services/order/customer-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../../../interfaces/orderService.interface';
+import { UserService } from '../../../services/user/user.service';
+import { Observable } from 'rxjs';
+import { User } from '../../../interfaces/user.interface';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-service-form',
@@ -21,7 +25,9 @@ import { CustomerService } from '../../../interfaces/orderService.interface';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    ReactiveFormsModule
+    MatSelectModule,
+    ReactiveFormsModule,
+    AsyncPipe
   ],
   templateUrl: './service-form.component.html',
   styleUrl: './service-form.component.scss'
@@ -30,12 +36,13 @@ export class ServiceFormComponent implements OnInit {
 
   serviceForm!: FormGroup;
   classId!: string;
+  ListUserInClass: User[] | null = null;
 
   constructor(
     public formUtils: FormUtilsService,
     private formBuilder: FormBuilder,
     private customerService: CustomerServiceService,
-    //private authService: AuthService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private location: Location,
     private toastService: ToastrService
@@ -54,6 +61,13 @@ export class ServiceFormComponent implements OnInit {
       classId: [service.classId, [Validators.required]],
       userId: [service.userId, [Validators.required]],
       studentId: [service.studentId, [Validators.required]]
+    });
+
+    this.route.paramMap.subscribe((params) => {
+      this.classId = params.get('idClass') || ''; // 'id' é o nome do parâmetro na rota
+      this.userService.listByClassId(this.classId).subscribe((students) => {
+        this.ListUserInClass = students;
+      });
     });
   }
 
