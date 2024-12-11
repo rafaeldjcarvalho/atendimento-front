@@ -11,6 +11,9 @@ import { ClassPrincipalComponent } from './pages/class/class-principal/class-pri
 import { CalendarFormComponent } from './pages/class/calendar-form/calendar-form.component';
 import { OrderFormComponent } from './pages/class/order-form/order-form.component';
 import { OrderResolver } from './guards/resolvers/order.resolver';
+import { ServiceFormComponent } from './pages/class/service-form/service-form.component';
+import { ServiceResolver } from './guards/resolvers/service.resolver';
+
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -33,7 +36,9 @@ export const routes: Routes = [
       { path: 'class/:id', component: ClassPrincipalComponent, resolve: { classes: ClassResolver }},
       { path: 'class/:id/newCalendar', component: CalendarFormComponent },
       { path: 'class/:idClass/newOrder', component: OrderFormComponent, resolve: { order: OrderResolver}},
-      { path: 'class/:idClass/editOrder/:id', component: OrderFormComponent, resolve: { order: OrderResolver}}
+      { path: 'class/:idClass/editOrder/:id', component: OrderFormComponent, resolve: { order: OrderResolver}},
+      { path: 'class/:idClass/newService', component: ServiceFormComponent, resolve: { service: ServiceResolver}},
+      { path: 'class/:idClass/editService/:id', component: ServiceFormComponent, resolve: { service: ServiceResolver}}
     ]
   }
 ];
