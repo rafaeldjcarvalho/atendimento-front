@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CalendarListComponent } from "../calendar-list/calendar-list.component";
 import { OrderListComponent } from "../order-list/order-list.component";
+import { CustomerServiceListComponent } from "../customer-service-list/customer-service-list.component";
 
 @Component({
   selector: 'app-class-principal',
@@ -17,7 +18,8 @@ import { OrderListComponent } from "../order-list/order-list.component";
     MatButtonModule,
     MatTabsModule,
     CalendarListComponent,
-    OrderListComponent
+    OrderListComponent,
+    CustomerServiceListComponent
 ],
   templateUrl: './class-principal.component.html',
   styleUrl: './class-principal.component.scss'

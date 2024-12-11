@@ -1,0 +1,63 @@
+<mat-card class="card">
+  <mat-toolbar>
+      <span>Criar Atendimento</span>
+  </mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="serviceForm" class="min-width">
+      <mat-form-field class="full-width">
+        <mat-label>Título</mat-label>
+        <input matInput placeholder="Title" formControlName="title" #title />
+        @if (serviceForm.get('title')?.invalid) {
+        <mat-error>{{ formUtils.getErrorMessage(serviceForm, "title") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Descrição</mat-label>
+        <input matInput placeholder="Description" formControlName="description" #description />
+        @if (serviceForm.get('description')?.invalid) {
+        <mat-error>{{ formUtils.getErrorMessage(serviceForm, "description") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Data</mat-label>
+        <input matInput type="date" placeholder="Date" formControlName="date" #date />
+        @if (serviceForm.get('date')?.invalid) {
+        <mat-error>{{ formUtils.getErrorMessage(serviceForm, "date") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Horário inicial</mat-label>
+        <input matInput type="time" placeholder="Time_Start" formControlName="time_start" #time_start />
+        @if (serviceForm.get('time_start')?.invalid) {
+        <mat-error>{{ formUtils.getErrorMessage(serviceForm, "time_start") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Horário final</mat-label>
+        <input matInput type="time" placeholder="Time_End" formControlName="time_end" #time_end />
+        @if (serviceForm.get('time_end')?.invalid) {
+        <mat-error>{{ formUtils.getErrorMessage(serviceForm, "time_end") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Criar um seletor que liste os alunos da classe e coloque o id do aluno na variavel studentId do formulário -->
+      @if(serviceForm.get('studentId') == null){
+        <p>Studante vazio</p>
+      }
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions class="actions-center">
+    <button mat-raised-button (click)="onSubmit()">
+      Salvar
+    </button>
+    <button mat-raised-button (click)="onCancel()" class="btn-space">
+      Cancelar
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,4 +1,4 @@
-import { OrderService } from "./orderService.interface";
+import { CustomerService, OrderService } from "./orderService.interface";
 
 export interface OrderPage {
   orders: OrderService[];

@@ -11,3 +11,7 @@ export interface OrderService {
   classId: string,
   userId: string
 }
+
+export interface CustomerService extends OrderService {
+  studentId: string
+}

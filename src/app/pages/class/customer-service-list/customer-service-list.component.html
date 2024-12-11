@@ -1,0 +1,40 @@
+<div class="container">
+  <mat-form-field class="full-width">
+    <mat-label>Filtro: </mat-label>
+    <mat-select
+      id="serviceSelected"
+      [(value)]="serviceSelectedId"
+      (selectionChange)="onServiceChange(serviceSelectedId)">
+        <mat-option [value]="0" >Todos os Dados</mat-option>
+        <mat-option [value]="1" >Apenas os Dados do Usuário</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+@if (customerServices$ | async; as services) {
+  <div>
+    <app-service-list
+      [userLogged]="getUserLogado()"
+      topico="Atendimentos"
+      [itensList]="services.services"
+      (add)="onAdd()"
+      (edit)="onEdit($event)"
+      (remove)="onRemove($event)"
+    >
+    </app-service-list>
+    <mat-paginator
+      [pageSizeOptions]="[6, 12, 18]"
+      showFirstLastButtons
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [length]="services.totalElements"
+      (page)="refresh($event)"
+      aria-label="Select page of services"
+    >
+    </mat-paginator>
+  </div>
+} @else {
+  <div class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+}
