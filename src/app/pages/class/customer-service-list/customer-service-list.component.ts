@@ -6,7 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, first, map, Observable, of, tap } from 'rxjs';
 import { CustomerServiceService } from '../../../services/order/customer-service.service';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -71,25 +71,38 @@ export class CustomerServiceListComponent implements AfterViewInit {
             this.pageSize = pageEvent.pageSize;
           }),
           catchError(error => {
-            this.onError('Erro ao carregar pedidos.');
+            this.onError('Erro ao carregar atendimentos.');
             return of({ services: [], totalElements: 0, totalPages: 0 })
           })
         );
     } else {
-      const userId = this.getUserLogado();
-      if(userId != null) {
-        this.customerServices$ = this.customerServiceService.listByStudent(userId, pageEvent.pageIndex, pageEvent.pageSize)
-          .pipe(
-            tap(() => {
-              this.pageIndex = pageEvent.pageIndex;
-              this.pageSize = pageEvent.pageSize;
-            }),
-            catchError(error => {
-              this.onError('Erro ao carregar pedidos.');
-              return of({ services: [], totalElements: 0, totalPages: 0 })
-            })
-          );
-      }
+      this.authService.user$.subscribe({
+        next: (user) => {
+          if(user?.id && user.access == "Aluno") {
+            this.customerServices$ = this.customerServiceService.listByStudent(user.id, pageEvent.pageIndex, pageEvent.pageSize).pipe(
+              tap(() => {
+                this.pageIndex = pageEvent.pageIndex;
+                this.pageSize = pageEvent.pageSize;
+              }),
+              catchError(error => {
+                this.onError('Erro ao carregar atendimentos.');
+                return of({ services: [], totalElements: 0, totalPages: 0 })
+              })
+            );
+          } else if (user?.id != undefined) {
+            this.customerServices$ = this.customerServiceService.listByOwner(user.id, pageEvent.pageIndex, pageEvent.pageSize).pipe(
+              tap(() => {
+                this.pageIndex = pageEvent.pageIndex;
+                this.pageSize = pageEvent.pageSize;
+              }),
+              catchError(error => {
+                this.onError('Erro ao carregar atendimentos.');
+                return of({ services: [], totalElements: 0, totalPages: 0 })
+              })
+            );
+          }
+        }
+      })
     }
   }
 

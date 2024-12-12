@@ -8,6 +8,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CalendarListComponent } from "../calendar-list/calendar-list.component";
 import { OrderListComponent } from "../order-list/order-list.component";
 import { CustomerServiceListComponent } from "../customer-service-list/customer-service-list.component";
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-class-principal',
@@ -17,6 +18,7 @@ import { CustomerServiceListComponent } from "../customer-service-list/customer-
     MatToolbarModule,
     MatButtonModule,
     MatTabsModule,
+    MatSelectModule,
     CalendarListComponent,
     OrderListComponent,
     CustomerServiceListComponent
@@ -43,5 +45,4 @@ export class ClassPrincipalComponent implements OnInit {
   onAddCalendar(classId: string) {
     this.router.navigate(['/user/class/', classId, 'newCalendar']);
   }
-
 }

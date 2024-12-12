@@ -56,7 +56,7 @@ export class CustomerServiceService {
   }
 
   listByOwner(userId: string, page = 0, pageSize = 12) {
-    return this.httpClient.get<CustomerPage>(`${this.API}/class/${userId}`, { params: { page, pageSize } })
+    return this.httpClient.get<CustomerPage>(`${this.API}/owner/${userId}`, { params: { page, pageSize } })
       .pipe(
         first(),
         delay(2000)
@@ -64,7 +64,7 @@ export class CustomerServiceService {
   }
 
   listByStudent(studentId: string, page = 0, pageSize = 12) {
-    return this.httpClient.get<CustomerPage>(`${this.API}/class/${studentId}`, { params: { page, pageSize } })
+    return this.httpClient.get<CustomerPage>(`${this.API}/student/${studentId}`, { params: { page, pageSize } })
       .pipe(
         first(),
         delay(2000)
