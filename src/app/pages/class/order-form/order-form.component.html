@@ -21,6 +21,74 @@
           }
         </mat-form-field>
 
+        <!-- Seleção do Calendário -->
+        <mat-form-field class="full-width">
+          <mat-label>Calendário</mat-label>
+          <mat-select
+            formControlName="calendar"
+            (selectionChange)="onCalendarChange($event.value)"
+          >
+            @for (calendar of calendars; track $index) {
+              <mat-option [value]="calendar">
+                {{ calendar.ownerName }}
+              </mat-option>
+            }
+          </mat-select>
+          @if (orderForm.get('calendar')?.invalid) {
+            <mat-error>
+              Selecione um calendário válido
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Seleção de Data -->
+        @if (availableDates.length > 0) {
+          <mat-form-field class="full-width">
+            <mat-label>Data</mat-label>
+            <mat-select formControlName="date" (selectionChange)="onDateChange($event.value)">
+              @for (date of availableDates; track $index) {
+                <mat-option [value]="date">
+                  {{ formatDateToPortuguese(date) }}
+                </mat-option>
+              }
+            </mat-select>
+            @if (orderForm.get('date')?.invalid) {
+              <mat-error>{{ formUtils.getErrorMessage(orderForm, "date") }}</mat-error>
+            }
+          </mat-form-field>
+        }
+
+        <!-- Seleção de Horário -->
+        @if (availableDates.length > 0) {
+          <mat-form-field class="full-width">
+            <mat-label>Horário Inicial</mat-label>
+            <mat-select formControlName="time_start" (selectionChange)="onTimeStartChange($event.value)">
+              @for (time of availableTimes; track $index) {
+                <mat-option [value]="time">
+                  {{ time }}
+                </mat-option>
+              }
+            </mat-select>
+            @if (orderForm.get('time_start')?.invalid) {
+              <mat-error>{{ formUtils.getErrorMessage(orderForm, "time_start") }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Horário Final</mat-label>
+            <mat-select formControlName="time_end">
+              @for (time of filteredTimeSlots; track $index) {
+                <mat-option [value]="time">
+                  {{ time }}
+                </mat-option>
+              }
+            </mat-select>
+            @if (orderForm.get('time_end')?.invalid) {
+              <mat-error>{{ formUtils.getErrorMessage(orderForm, "time_end") }}</mat-error>
+            }
+          </mat-form-field>
+        }
+        <!--
         <mat-form-field class="full-width">
           <mat-label>Data</mat-label>
           <input matInput type="date" placeholder="Date" formControlName="date" #date />
@@ -44,6 +112,7 @@
           <mat-error>{{ formUtils.getErrorMessage(orderForm, "time_end") }}</mat-error>
           }
         </mat-form-field>
+        -->
       </form>
     </mat-card-content>
 

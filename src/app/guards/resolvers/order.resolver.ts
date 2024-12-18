@@ -27,7 +27,7 @@ export class OrderResolver  {
 
     //return of({ id: '', title: '', description: '', date: '', time_start: '', time_end: '', status: "Pendente",
     //  classId: this.classId, ownerId: ''
-    //});
+    //}); 
 
     return this.auth.user$.pipe(
       first(), // Obtém o valor atual do usuário logado
