@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Class } from '../../../interfaces/class.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -29,6 +29,10 @@ import { MatSelectModule } from '@angular/material/select';
 export class ClassPrincipalComponent implements OnInit {
 
   clazz!: Class;
+  filterValue: number = 0;
+
+  @ViewChild(OrderListComponent) orderList!: OrderListComponent;
+  @ViewChild(CustomerServiceListComponent) customerServiceList!: CustomerServiceListComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,5 +48,12 @@ export class ClassPrincipalComponent implements OnInit {
 
   onAddCalendar(classId: string) {
     this.router.navigate(['/user/class/', classId, 'newCalendar']);
+  }
+
+  onFilterChange(newFilter: number) {
+    this.filterValue = newFilter;
+
+    this.orderList.onFilterChange(newFilter);
+    this.customerServiceList.onFilterChange(newFilter);
   }
 }

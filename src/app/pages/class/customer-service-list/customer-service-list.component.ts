@@ -33,11 +33,12 @@ export class CustomerServiceListComponent implements AfterViewInit {
 
   customerServices$: Observable<CustomerPage> | null = null;
 
-  serviceSelectedId: number = 0;
+  //serviceSelectedId: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   @Input() idClass!: string;
+  filter: number = 0;
 
   pageIndex = 0;
   pageSize = 12;
@@ -57,13 +58,13 @@ export class CustomerServiceListComponent implements AfterViewInit {
     this.refresh();
   }
 
-  onServiceChange(serviceId: number): void {
-    this.serviceSelectedId = serviceId;
+  onFilterChange(newFilter: number): void {
+    this.filter = newFilter;
     this.refresh();
   }
 
   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 12 }) {
-    if(this.serviceSelectedId == 0) {
+    if(this.filter == 0) {
       this.customerServices$ = this.customerServiceService.listByClass(this.idClass, pageEvent.pageIndex, pageEvent.pageSize)
         .pipe(
           tap(() => {
