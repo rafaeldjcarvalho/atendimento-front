@@ -24,10 +24,13 @@ export class ServiceListComponent {
   @Input() userLogged: string | null = null;
   @Input() topico: string = '';
   @Input() itensList: OrderService[] = [];
+  @Input() actionButtons: boolean = true;
 
   @Output() add = new EventEmitter();
   @Output() edit = new EventEmitter();
   @Output() remove = new EventEmitter();
+  @Output() accept = new EventEmitter();
+  @Output() reject = new EventEmitter();
 
   onAdd() {
     this.add.emit();
@@ -39,5 +42,13 @@ export class ServiceListComponent {
 
   onDelete(order: OrderService) {
     this.remove.emit(order);
+  }
+
+  onAccept(order: OrderService) {
+    this.accept.emit(order);
+  }
+
+  onReject(order: OrderService) {
+    this.reject.emit(order);
   }
 }

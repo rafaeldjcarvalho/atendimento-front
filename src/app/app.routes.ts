@@ -38,6 +38,7 @@ export const routes: Routes = [
       { path: 'class/:idClass/newOrder', component: OrderFormComponent, resolve: { order: OrderResolver}},
       { path: 'class/:idClass/editOrder/:id', component: OrderFormComponent, resolve: { order: OrderResolver}},
       { path: 'class/:idClass/newService', component: ServiceFormComponent, resolve: { service: ServiceResolver}},
+      { path: 'class/:idClass/newService/:id_order', component: ServiceFormComponent, resolve: { service: ServiceResolver}},
       { path: 'class/:idClass/editService/:id', component: ServiceFormComponent, resolve: { service: ServiceResolver}}
     ]
   }

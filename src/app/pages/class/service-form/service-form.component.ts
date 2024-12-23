@@ -8,13 +8,13 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { FormUtilsService } from '../../../services/form/form-utils.service';
 import { CustomerServiceService } from '../../../services/order/customer-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../../../interfaces/orderService.interface';
 import { UserService } from '../../../services/user/user.service';
-import { Observable } from 'rxjs';
 import { User } from '../../../interfaces/user.interface';
 import { MatSelectModule } from '@angular/material/select';
+import { OrderServiceService } from '../../../services/order/order-service.service';
 
 @Component({
   selector: 'app-service-form',
@@ -26,8 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    ReactiveFormsModule,
-    AsyncPipe
+    ReactiveFormsModule
   ],
   templateUrl: './service-form.component.html',
   styleUrl: './service-form.component.scss'
@@ -36,12 +35,14 @@ export class ServiceFormComponent implements OnInit {
 
   serviceForm!: FormGroup;
   classId!: string;
+  orderId!: string;
   ListUserInClass: User[] | null = null;
 
   constructor(
     public formUtils: FormUtilsService,
     private formBuilder: FormBuilder,
     private customerService: CustomerServiceService,
+    private orderService: OrderServiceService,
     private userService: UserService,
     private route: ActivatedRoute,
     private location: Location,
@@ -55,8 +56,8 @@ export class ServiceFormComponent implements OnInit {
       title: [service.title, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       description: [service.description, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       date: [service.date, [Validators.required, Validators.maxLength(10)]],
-      time_start: [service.time_start, [Validators.required, Validators.maxLength(6)]],
-      time_end: [service.time_end, [Validators.required, Validators.maxLength(6)]],
+      time_start: [service.time_start, [Validators.required, Validators.maxLength(9)]],
+      time_end: [service.time_end, [Validators.required, Validators.maxLength(9)]],
       status: [service.status, [Validators.required, Validators.maxLength(12)]],
       classId: [service.classId, [Validators.required]],
       userId: [service.userId, [Validators.required]],
@@ -64,20 +65,29 @@ export class ServiceFormComponent implements OnInit {
     });
 
     this.route.paramMap.subscribe((params) => {
-      this.classId = params.get('idClass') || ''; // 'id' é o nome do parâmetro na rota
+      this.classId = params.get('idClass') || ''; // 'idClass' é o nome do parâmetro na rota
       this.userService.listByClassId(this.classId).subscribe((students) => {
         this.ListUserInClass = students;
       });
     });
+
+    this.route.paramMap.subscribe((params) => {
+      this.orderId = params.get('id_order') || ''; // 'id_order' é o nome do parâmetro na rota
+    });
   }
 
   onSubmit() {
-    //console.log("Clicando");
+    //console.log(this.serviceForm.value);
     if (this.serviceForm.valid) {
       this.customerService.save(this.serviceForm.value).subscribe({
-        next: () => this.onSuccess(),
-        error: () => this.onError()
+        next: () => this.onSuccess("Atendimento adicionado com sucesso!"),
+        error: () => this.onError("ERRO ao criar atendimento.")
       });
+      if(this.orderId != '') {
+        this.orderService.remove(this.orderId).subscribe({
+          error: () => console.error("Erro ao remover Pedido.")
+        });
+      }
     } else {
       this.formUtils.validateAllFormFields(this.serviceForm);
     }
@@ -87,13 +97,13 @@ export class ServiceFormComponent implements OnInit {
     this.location.back();
   }
 
-  private onSuccess() {
-    this.toastService.success('Atendimento adicionado com sucesso!');
+  private onSuccess(msg: string) {
+    this.toastService.success(msg);
     this.onCancel();
   }
 
-  private onError() {
-    this.toastService.success('ERRO ao criar atendimento.');
+  private onError(msg: string) {
+    this.toastService.error(msg);
   }
 
 }

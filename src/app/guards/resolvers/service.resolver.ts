@@ -24,6 +24,7 @@ export class ServiceResolver  {
 
     // criando atendimento a partir de um pedido de atendimento
     if (route.params && route.params['id_order']) {
+      const user = this.auth.getLoggedInUserId();
       return this.orderService.getById(route.params['id_order']).pipe(
         first(),
         map((order) =>({
@@ -35,7 +36,7 @@ export class ServiceResolver  {
           time_end: order.time_end,
           status: order.status,
           classId: order.classId,
-          userId: '',
+          userId: user? user : '',
           studentId: order.userId
         }))
       );

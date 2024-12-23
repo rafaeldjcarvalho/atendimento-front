@@ -31,10 +31,12 @@
             <mat-card-content>
                 {{ order.description }}
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>Accept</button>
-                <button mat-button>Reject</button>
-            </mat-card-actions>
+            @if (actionButtons) {
+              <mat-card-actions>
+                <button mat-button (click)="onAccept(order)">Accept</button>
+                <button mat-button (click)="onReject(order)">Reject</button>
+              </mat-card-actions>
+            }
             <mat-card-footer>
                 Autor's name
             </mat-card-footer>

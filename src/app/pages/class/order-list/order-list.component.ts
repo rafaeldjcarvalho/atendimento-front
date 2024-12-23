@@ -6,7 +6,7 @@ import { OrderServiceService } from '../../../services/order/order-service.servi
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { OrderPage } from '../../../interfaces/order-page.interface';
-import { OrderService } from '../../../interfaces/orderService.interface';
+import { CustomerService, OrderService } from '../../../interfaces/orderService.interface';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ServiceListComponent } from "../../../components/service-list/service-list.component";
@@ -126,6 +126,21 @@ export class OrderListComponent implements AfterViewInit {
 
   getUserLogado() {
     return this.authService.getLoggedInUserId();
+  }
+
+  onAccept(order: OrderService){
+    const user = this.getUserLogado();
+    if(user != null) {
+      //let customerService: CustomerService = { id: '', title: order.title, description: order.description, date: order.date, time_start: order.time_start, time_end: order.time_end, status: order.status, classId: order.classId, studentId: order.userId, userId: user};
+      this.router.navigate(['/user/class/', order.classId, 'newService', order.id]);
+    } else {
+      this.onError("Usuário não está logado.");
+    }
+  }
+
+  onReject(order: OrderService) {
+    console.log("Rejeitado: " + order.id);
+    this.onRemove(order);
   }
 
 }
