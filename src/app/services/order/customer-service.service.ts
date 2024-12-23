@@ -63,6 +63,14 @@ export class CustomerServiceService {
       );
   }
 
+  listServicesByOwner(userId: string) {
+    return this.httpClient.get<any[]>(`${this.API}/owner/services/${userId}`)
+      .pipe(
+        first(),
+        //delay(2000)
+      );
+  }
+
   listByStudent(studentId: string, page = 0, pageSize = 12) {
     return this.httpClient.get<CustomerPage>(`${this.API}/student/${studentId}`, { params: { page, pageSize } })
       .pipe(

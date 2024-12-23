@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { ToastrService } from 'ngx-toastr';
+import { CustomerServiceService } from '../../services/order/customer-service.service';
 
 @Component({
   selector: 'app-class-calendar',
@@ -43,6 +44,7 @@ export class ClassCalendarComponent {
 
   constructor(
     private classService: ClassService,
+    private customerService: CustomerServiceService,
     public dialog: MatDialog,
     private toastService: ToastrService) {}
 
@@ -60,9 +62,11 @@ export class ClassCalendarComponent {
 
   onCalendarChange(calendarId: number): void {
     this.selectedCalendarId = calendarId;
-    this.loadSchedules(calendarId);
+    const calendarUser = this.calendars[calendarId-1]
+    //console.log(calendarUser.ownerId);
+    this.loadSchedules(calendarId, calendarUser.ownerId);
   }
-
+  /*
   loadSchedules(calendarId: number): void {
     this.classService.getSchedules(calendarId).subscribe((schedules) => {
       // Mapeia os dias da semana para números
@@ -94,6 +98,57 @@ export class ClassCalendarComponent {
           daysOfWeek: [this.mapDayToNumber(schedule.dayOfWeek)],
         })),
       };
+    });
+  }
+  */
+
+  loadSchedules(calendarId: number, ownerId: string): void {
+    // Obtém os horários do calendário
+    this.classService.getSchedules(calendarId).subscribe((schedules) => {
+      // Obtém os atendimentos relacionados ao calendário
+      this.customerService.listServicesByOwner(ownerId).subscribe((appointments) => {
+        // Combina horários e atendimentos em um único array de eventos
+        const events = [
+          ...schedules.map((schedule: any) => ({
+            title: `Horário: ${schedule.dayOfWeek}`,
+            start: `2023-01-01T${schedule.startTime}`,
+            end: `2023-01-01T${schedule.endTime}`,
+            daysOfWeek: [this.mapDayToNumber(schedule.dayOfWeek)],
+            color: '#6C757D', // Cor dos horários
+          })),
+          ...appointments.map((appointment: any) => ({
+            title: `Atendimento: ${appointment.title}`,
+            start: `${appointment.date}T${appointment.time_start}`,
+            end: `${appointment.date}T${appointment.time_end}`,
+            color: '#007BFF', // Cor dos atendimentos
+          })),
+        ];
+
+        // Mapeia os dias da semana para números
+        const visibleDays = schedules.map((schedule: any) =>
+          this.mapDayToNumber(schedule.dayOfWeek)
+        );
+
+        // Calcula os horários mínimos e máximos para cada dia
+        const timeRanges = this.getTimeRanges(schedules);
+
+        // Configuração do FullCalendar
+        this.calendarOptions = {
+          initialView: 'timeGridWeek',
+          plugins: [timeGridPlugin, interactionPlugin],
+          headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'timeGridWeek,timeGridDay',
+          },
+          hiddenDays: this.getHiddenDays(visibleDays),
+          editable: false,
+          droppable: false,
+          slotMinTime: timeRanges.minTime,
+          slotMaxTime: timeRanges.maxTime,
+          events: events, // Define os eventos consolidados
+        };
+      });
     });
   }
 
@@ -144,10 +199,10 @@ export class ClassCalendarComponent {
           next: () => {
             this.calendarOptions = undefined;
             this.loadCalendars();
-            //window.location.reload();
+            window.location.reload();
             //const trigger = document.querySelector('mat-select#calendarSelect');
             //(trigger as HTMLElement)?.focus();
-            this.toastService.success("Calendário removido com sucesso")
+            this.toastService.success("Calendário removido com sucesso!")
           },
           error: () => this.toastService.error('Erro ao tentar remover calendário.')
         });
