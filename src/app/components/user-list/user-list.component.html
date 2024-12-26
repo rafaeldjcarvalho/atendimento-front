@@ -1,0 +1,28 @@
+<mat-card class="card">
+  <mat-toolbar>
+    {{ topico }}
+    <div class="space"></div>
+  </mat-toolbar>
+
+  <mat-card-content>
+    <div class="card-container">
+      @for (user of itensList; track $index) {
+        <mat-card class="width-min">
+            <mat-card-content>
+              <div class="user-container">
+                {{ user.name }} / {{ user.email }}
+                @if (loggedUser != user.id && loggedUser != '') {
+                  <div>
+                    @if(user.access == "Aluno") {
+                      <button mat-button >Add as Monitor</button>
+                    }
+                    <button mat-button >Remove</button>
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

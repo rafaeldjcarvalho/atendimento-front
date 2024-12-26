@@ -19,4 +19,20 @@ export class UserService {
         //delay(2000)
       );
   }
+
+  teacherListByClassId(classId: string) {
+    return this.httpClient.get<User[]>(`${this.API}/userTeachers-class/${classId}`)
+      .pipe(
+        first(),
+        //delay(2000)
+      );
+  }
+
+  monitorListByClassId(classId: string) {
+    return this.httpClient.get<User[]>(`${this.API}/userMonitors-class/${classId}`)
+      .pipe(
+        first(),
+        //delay(2000)
+      );
+  }
 }

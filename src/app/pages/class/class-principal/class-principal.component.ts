@@ -9,6 +9,7 @@ import { CalendarListComponent } from "../calendar-list/calendar-list.component"
 import { OrderListComponent } from "../order-list/order-list.component";
 import { CustomerServiceListComponent } from "../customer-service-list/customer-service-list.component";
 import { MatSelectModule } from '@angular/material/select';
+import { ClassUserListComponent } from "../class-user-list/class-user-list.component";
 
 @Component({
   selector: 'app-class-principal',
@@ -21,7 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     CalendarListComponent,
     OrderListComponent,
-    CustomerServiceListComponent
+    CustomerServiceListComponent,
+    ClassUserListComponent
 ],
   templateUrl: './class-principal.component.html',
   styleUrl: './class-principal.component.scss'

@@ -1,0 +1,31 @@
+
+.card {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: left;
+}
+
+.user-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+}
+
+.card-container {
+  display: inline;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  padding: 16px;
+}
+
+.space {
+  flex: 1 1 auto;
+}
+
+.width-min {
+  width: 100%;
+}
+mat-card {
+  margin: 5px;
+}
