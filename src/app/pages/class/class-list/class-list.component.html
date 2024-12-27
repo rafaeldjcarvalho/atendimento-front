@@ -11,7 +11,13 @@
         <mat-card appearance="outlined">
           <mat-card-header>
             <mat-card-title-group>
-              <mat-card-title><a routerLink='/user/class/{{ classItem.id }}' >{{ classItem.name }}</a></mat-card-title>
+              <mat-card-title>
+                @if (isClassInUserClasses(classItem) && getUserLogged() != null) {
+                  <a routerLink='/user/class/{{ classItem.id }}'>{{ classItem.name }}</a>
+                } @else {
+                  {{ classItem.name }}
+                }
+              </mat-card-title>
               <mat-card-subtitle>{{ classItem.date | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
               @if (getUserLogged() != null && classItem.owner?.id == getUserLogged()) {
                 <div class="button-row">

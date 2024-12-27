@@ -2,20 +2,25 @@
   <app-user-list
     topico="Professores"
     [itensList]="teachers"
-    [loggedUser]="getUserLogged()">
+    [loggedUser]="getUserLogged()"
+    (remove)="onRemove($event)">
   </app-user-list>
 }
 @if (monitors$ | async; as monitors) {
   <app-user-list
   topico="Monitores"
   [itensList]="monitors"
-  [loggedUser]="getUserLogged()">
+  [loggedUser]="getUserLogged()"
+  (remove)="onRemove($event)"
+  (removeMonitor)="onRemoveMonitor($event)">
   </app-user-list>
 }
 @if (students$ | async; as students) {
   <app-user-list
     topico="Alunos"
     [itensList]="students"
-    [loggedUser]="getUserLogged()">
+    [loggedUser]="getUserLogged()"
+    (remove)="onRemove($event)"
+    (addMonitor)="onAddMonitor($event)">
   </app-user-list>
 }

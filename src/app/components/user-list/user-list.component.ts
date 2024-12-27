@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -20,5 +20,21 @@ export class UserListComponent {
   @Input() topico: string = '';
   @Input() loggedUser!: string;
   @Input() itensList: User[] = [];
+
+  @Output() remove = new EventEmitter();
+  @Output() addMonitor = new EventEmitter();
+  @Output() removeMonitor = new EventEmitter();
+
+  onRemove(user: User) {
+    this.remove.emit(user);
+  }
+
+  onAddMonitor(user: User) {
+    this.addMonitor.emit(user);
+  }
+
+  onRemoveMonitor(user: User) {
+    this.removeMonitor.emit(user);
+  }
 
 }

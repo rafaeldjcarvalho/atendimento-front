@@ -158,6 +158,7 @@ export class ClassListComponent {
       }
     });
   }
+  
 
   getUserLogged() {
     return this.authService.getLoggedInUserId();

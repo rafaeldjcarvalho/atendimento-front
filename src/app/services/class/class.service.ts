@@ -75,4 +75,12 @@ export class ClassService {
   removeCalendar(classId: string, calendarId: number) {
     return this.httpClient.delete(`${this.API}/${classId}/calendars/${calendarId}`).pipe(first());
   }
+
+  promoteToMonitor(classId: string, userId: string) {
+    return this.httpClient.put(`${this.API}/${classId}/promote/${userId}`, null).pipe(first());
+  }
+
+  demoteToStudent(classId: string, userId: string) {
+    return this.httpClient.put(`${this.API}/${classId}/demote/${userId}`, null).pipe(first());
+  }
 }
