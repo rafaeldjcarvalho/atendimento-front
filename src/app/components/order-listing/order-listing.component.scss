@@ -1,0 +1,44 @@
+
+.card {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.card-container {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  padding: 16px;
+
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.space {
+  flex: 1 1 auto;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.width-min {
+  width: 100%;
+}
+
+.height-max {
+  max-height: 20%;
+}
+
+mat-card {
+  margin: 5px;
+}
+
+mat-card-footer {
+  padding: 10px;
+}

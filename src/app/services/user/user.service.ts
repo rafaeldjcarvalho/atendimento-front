@@ -12,6 +12,10 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
+  loadById(id: string) {
+    return this.httpClient.get<User>(`${this.API}/${id}`);
+  }
+
   listByClassId(classId: string) {
     return this.httpClient.get<User[]>(`${this.API}/user-class/${classId}`)
       .pipe(

@@ -1,14 +1,14 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { CustomerService, OrderService } from '../../interfaces/orderService.interface';
-import { DatePipe } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { OrderService } from '../../interfaces/orderService.interface';
 
 @Component({
-  selector: 'app-service-list',
+  selector: 'app-order-listing',
   standalone: true,
   imports: [
     MatToolbarModule,
@@ -18,14 +18,14 @@ import { DatePipe } from '@angular/common';
     MatMenuModule,
     DatePipe
   ],
-  templateUrl: './service-list.component.html',
-  styleUrl: './service-list.component.scss'
+  templateUrl: './order-listing.component.html',
+  styleUrl: './order-listing.component.scss'
 })
-export class ServiceListComponent {
+export class OrderListingComponent {
 
   @Input() userLogged: string | null = null;
   @Input() topico: string = '';
-  @Input() itensList: CustomerService[] = [];
+  @Input() itensList: OrderService[] = [];
   @Input() actionButtons: boolean = true;
 
   @Output() add = new EventEmitter();
@@ -55,7 +55,4 @@ export class ServiceListComponent {
     this.reject.emit(order);
   }
 
-  onOpenDialog(order: OrderService) {
-    this.openDialog.emit(order);
-  }
 }

@@ -62,8 +62,10 @@ export class ClassCalendarComponent {
 
   onCalendarChange(calendarId: number): void {
     this.selectedCalendarId = calendarId;
-    const calendarUser = this.calendars[calendarId-1]
-    //console.log(calendarUser.ownerId);
+    const calendarUser = this.calendars[this.calendars.length-1]
+    console.log(this.selectedCalendarId);
+    console.log(this.calendars)
+    console.log(calendarUser)
     this.loadSchedules(calendarId, calendarUser.ownerId);
   }
   /*

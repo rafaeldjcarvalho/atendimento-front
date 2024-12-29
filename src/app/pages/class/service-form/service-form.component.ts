@@ -80,16 +80,22 @@ export class ServiceFormComponent implements OnInit {
     //console.log(this.serviceForm.value);
     if (this.serviceForm.valid) {
       this.customerService.save(this.serviceForm.value).subscribe({
-        next: () => this.onSuccess("Atendimento adicionado com sucesso!"),
+        next: () => {
+          this.onSuccess("Atendimento adicionado com sucesso!");
+          this.onRemoveService();
+        },
         error: () => this.onError("ERRO ao criar atendimento.")
       });
-      if(this.orderId != '') {
-        this.orderService.remove(this.orderId).subscribe({
-          error: () => console.error("Erro ao remover Pedido.")
-        });
-      }
     } else {
       this.formUtils.validateAllFormFields(this.serviceForm);
+    }
+  }
+
+  onRemoveService() {
+    if(this.orderId != '') {
+      this.orderService.remove(this.orderId).subscribe({
+        error: () => console.error("Erro ao remover Pedido.")
+      });
     }
   }
 

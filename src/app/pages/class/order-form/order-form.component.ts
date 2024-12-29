@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ClassService } from '../../../services/class/class.service';
 import { MatSelectModule } from '@angular/material/select';
+import { Schedule } from '../../../interfaces/schedule.interface';
+import { Calendar } from '../../../interfaces/calendar.interface';
 
 @Component({
   selector: 'app-order-form',
@@ -34,7 +36,7 @@ export class OrderFormComponent implements OnInit {
   orderForm!: FormGroup;
   classId!: string;
 
-  calendars: any[] = [];
+  calendars: Calendar[] = [];
   availableDates: Date[] = [];
   availableTimes: any[] = [];
   filteredTimeSlots: any[] = [];
@@ -115,17 +117,22 @@ export class OrderFormComponent implements OnInit {
   }
 
   onDaySelected(dayOfWeek: string): void {
-    const selectedSchedule = this.calendars
-      .flatMap(calendar => calendar.schedules)
-      .find(schedule => schedule.dayOfWeek === dayOfWeek);
+    const selectedCalendar = this.orderForm.get('calendar')?.value;
 
-    if (selectedSchedule) {
-      this.availableTimes = this.generateTimeSlots(
-        selectedSchedule.startTime,
-        selectedSchedule.endTime
+    if (selectedCalendar) {
+      const schedulesForDay: Schedule[] = selectedCalendar.schedules.filter(
+        (schedule: Schedule) => schedule.dayOfWeek === dayOfWeek
       );
+
+      if (schedulesForDay.length > 0) {
+        this.availableTimes = schedulesForDay.flatMap((schedule: Schedule) =>
+          this.generateTimeSlots(schedule.startTime, schedule.endTime)
+        );
+      } else {
+        this.availableTimes = []; // Sem horários disponíveis para o dia no calendário selecionado
+      }
     } else {
-      this.availableTimes = []; // Sem horários disponíveis
+      this.availableTimes = []; // Nenhum calendário selecionado
     }
   }
 
@@ -170,10 +177,44 @@ export class OrderFormComponent implements OnInit {
 
   // Extrair dias únicos a partir dos schedules
   extractUniqueDates(schedules: any[]): Date[] {
-    const uniqueDays = Array.from(
-      new Set(schedules.map((schedule) => this.getDateFromDay(schedule.dayOfWeek)))
-    );
-    return uniqueDays.map((day) => new Date(day));
+    const uniqueDates = schedules.flatMap(schedule => {
+      const dayOfWeek = schedule.dayOfWeek;
+      const days = this.getNextDatesForDay(dayOfWeek, 30); // Buscar próximos 30 dias
+      return days;
+    });
+
+    return Array.from(new Set(uniqueDates.map(date => date.toISOString()))).map(date => new Date(date));
+  }
+
+  // Obter os próximos dias específicos para o dia da semana fornecido
+  getNextDatesForDay(dayOfWeek: string, range: number): Date[] {
+    const daysMap: Record<string, number> = {
+      "DOMINGO": 0,
+      "SEGUNDA": 1,
+      "TERÇA": 2,
+      "QUARTA": 3,
+      "QUINTA": 4,
+      "SEXTA": 5,
+      "SÁBADO": 6
+    };
+
+    const today = new Date();
+    const targetDayIndex = daysMap[dayOfWeek];
+
+    if (targetDayIndex === undefined) {
+      throw new Error(`Dia da semana inválido: ${dayOfWeek}`);
+    }
+
+    const dates: Date[] = [];
+    for (let i = 0; i < range; i++) {
+      const nextDate = new Date(today);
+      nextDate.setDate(today.getDate() + i);
+      if (nextDate.getDay() === targetDayIndex) {
+        dates.push(new Date(nextDate));
+      }
+    }
+
+    return dates;
   }
 
   // Converter dia da semana para uma data

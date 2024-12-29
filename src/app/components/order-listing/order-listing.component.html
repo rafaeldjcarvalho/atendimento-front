@@ -36,21 +36,7 @@
                 <button mat-button (click)="onAccept(order)">Accept</button>
                 <button mat-button (click)="onReject(order)">Reject</button>
               </mat-card-actions>
-            } @else {
-                @if (userLogged != null && (userLogged == order.userId || userLogged == order.studentId)) {
-                  <mat-card-actions>
-                    <button mat-icon-button [matMenuTriggerFor]="menu">
-                      <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                      <button mat-menu-item (click)="onOpenDialog(order)">
-                        <mat-icon>check_circle</mat-icon>
-                        Registrar Presença
-                      </button>
-                    </mat-menu>
-                  </mat-card-actions>
-                }
-              }
+            }
         </mat-card>
       }
     </div>

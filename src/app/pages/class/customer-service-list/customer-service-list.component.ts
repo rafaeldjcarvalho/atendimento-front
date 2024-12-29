@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../../../interfaces/orderService.interface';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
+import { ServiceDialogComponent } from '../../../components/service-dialog/service-dialog.component';
 
 @Component({
   selector: 'app-customer-service-list',
@@ -139,6 +140,18 @@ export class CustomerServiceListComponent implements AfterViewInit {
 
   getUserLogado() {
     return this.authService.getLoggedInUserId();
+  }
+
+  onOpenDialog(service: CustomerService) {
+    const dialogRef = this.dialog.open(ServiceDialogComponent, {
+      data: { service }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Presença registrada:', result);
+      }
+    });
   }
 
 }

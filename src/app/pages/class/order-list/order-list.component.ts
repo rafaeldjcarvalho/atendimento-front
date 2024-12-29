@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { OrderListingComponent } from "../../../components/order-listing/order-listing.component";
 
 @Component({
   selector: 'app-order-list',
@@ -24,7 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     FormsModule,
-    MatSelectModule
+    MatSelectModule,
+    OrderListingComponent
 ],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.scss'

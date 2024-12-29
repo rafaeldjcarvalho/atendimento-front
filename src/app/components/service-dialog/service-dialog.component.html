@@ -1,0 +1,40 @@
+@if (service$ | async; as service) {
+  <h2 mat-dialog-title>Dados do Atendimento:</h2>
+  <mat-dialog-content>
+    <p><strong>{{ service.title }}</strong></p>
+    <p>{{ service.description }}</p>
+    <p>{{ service.date }} | {{ service.time_start }}/{{ service.time_end }}</p>
+    <p><strong>Responsável:</strong> {{ ownerName }}</p>
+    <p><strong>Aluno:</strong> {{ studentName }}</p>
+    @if (attendances.length > 0) {
+      <h3>Presenças Registradas:</h3>
+      <ul>
+        @for (attendance of attendances; track $index) {
+          <li>
+            <strong>{{ attendance.userName }}</strong> -
+            <span [ngClass]="{ 'text-success': attendance.status === 'Presente', 'text-danger': attendance.status === 'Ausente' }">
+              {{ attendance.status }}
+            </span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p>Nenhuma presença registrada ainda.</p>
+    }
+    <p><strong>O que deseja?</strong></p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    @if(!userAttendance) {
+      <button mat-raised-button color="primary" (click)="respondPresence('PRESENTE')">Registrar Presença</button>
+      <button mat-raised-button color="warn" (click)="respondPresence('AUSENTE')">Registrar Ausência</button>
+    } @else {
+      <button mat-raised-button color="primary" (click)="respondPresence('PRESENTE')">Atualizar para Presença</button>
+      <button mat-raised-button color="warn" (click)="respondPresence('AUSENTE')">Atualizar para Ausência</button>
+    }
+    <!--
+    <button mat-button (click)="registerAttendance('PRESENTE')">Sim</button>
+    <button mat-button color="warn" (click)="registerAttendance('AUSENTE')">Não</button>
+    -->
+    <button mat-button mat-dialog-close>Cancelar</button>
+  </mat-dialog-actions>
+}

@@ -14,7 +14,7 @@
 -->
 @if (orders$ | async; as orders) {
   <div>
-    <app-service-list
+    <app-order-listing
       [userLogged]="getUserLogado()"
       topico="Pedido de Atendimento"
       [itensList]="orders.orders"
@@ -24,7 +24,7 @@
       (accept)="onAccept($event)"
       (reject)="onReject($event)"
     >
-    </app-service-list>
+    </app-order-listing>
     <mat-paginator
       [pageSizeOptions]="[6, 12, 18]"
       showFirstLastButtons
