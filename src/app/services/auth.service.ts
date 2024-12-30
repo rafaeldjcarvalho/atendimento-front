@@ -59,7 +59,7 @@ export class AuthService {
     this.router.navigate([page]);
   }
 
-  private pushNewUser(token: string) {
+  public pushNewUser(token: string) {
     //console.log('Decoded User:', token);
     this.user.next(this.decodeToken(token));
   }
@@ -93,7 +93,7 @@ export class AuthService {
     }
   }
 
-  private saveTokenToSessionStore(userToken: string): void {
+  public saveTokenToSessionStore(userToken: string): void {
     sessionStorage.setItem(USER_SESSION_STORAGE_KEY, userToken);
   }
 

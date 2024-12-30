@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 import { delay, first } from 'rxjs';
+import { LoginResponse } from '../../types/login-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,9 @@ export class UserService {
         first(),
         //delay(2000)
       );
+  }
+
+  updateUser(userId: string, userObject: { name: string, email: string, password: string, typeAccess: string, status: string }) {
+    return this.httpClient.put<LoginResponse>(`${this.API}/${userId}`, userObject).pipe(first());
   }
 }

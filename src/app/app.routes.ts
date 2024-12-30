@@ -13,6 +13,7 @@ import { OrderFormComponent } from './pages/class/order-form/order-form.componen
 import { OrderResolver } from './guards/resolvers/order.resolver';
 import { ServiceFormComponent } from './pages/class/service-form/service-form.component';
 import { ServiceResolver } from './guards/resolvers/service.resolver';
+import { UserDetailsComponent } from './pages/user/user-details/user-details.component';
 
 
 export const routes: Routes = [
@@ -31,6 +32,7 @@ export const routes: Routes = [
     //canActivate: [IsLoggedInGuard],
     children: [
       { path: 'home', component: ClassListComponent },
+      { path: 'edit/:id', component: UserDetailsComponent },
       { path: 'class/new', component: ClassDetailsComponent, resolve: { classes: ClassResolver } },
       { path: 'class/edit/:id', component: ClassDetailsComponent, resolve: { classes: ClassResolver }},
       { path: 'class/:id', component: ClassPrincipalComponent, resolve: { classes: ClassResolver }},

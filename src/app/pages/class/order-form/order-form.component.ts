@@ -96,7 +96,7 @@ export class OrderFormComponent implements OnInit {
   }
 
   private onError() {
-    this.toastService.success('ERRO ao criar pedido.');
+    this.toastService.error('ERRO ao criar pedido.');
   }
 
   onCalendarChange(calendar: any): void {

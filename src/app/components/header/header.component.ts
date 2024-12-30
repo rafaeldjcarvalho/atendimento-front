@@ -21,15 +21,25 @@ import { UserWithToken } from '../../interfaces/user.interface';
 export class HeaderComponent {
 
   emailUser: string | undefined = '';
+  idUser: string | undefined = '';
   private user$: Observable<UserWithToken | null>;
 
   constructor(private authService: AuthService, private router: Router) {
     this.user$ = this.authService.user$;
-    this.user$.subscribe((user) => this.emailUser = user?.email )
+    this.user$.subscribe((user) => {
+      this.emailUser = user?.email;
+      this.idUser = user?.id;
+    })
   }
 
   loggout() {
     this.authService.logout();
     this.router.navigate(['login']);
+  }
+
+  editUser(id: string) {
+    if(id != '') {
+      this.router.navigate(['/user/edit', id]);
+    }
   }
 }

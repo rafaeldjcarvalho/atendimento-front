@@ -1,1 +1,66 @@
-<p>user-details works!</p>
+<mat-card class="card">
+  <mat-toolbar>
+      <span>Editar Dados da Conta</span>
+  </mat-toolbar>
+
+  <mat-card-content>
+    @if (userForm) {
+      <form [formGroup]="userForm" class="min-width">
+        <mat-form-field class="full-width">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Name" formControlName="name" #name />
+          @if (userForm.get('name')?.invalid) {
+            <mat-error>{{ formUtils.getErrorMessage(userForm, "name") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput placeholder="E-mail" formControlName="email" #email />
+          @if (userForm.get('email')?.invalid) {
+            <mat-error>{{ formUtils.getErrorMessage(userForm, "email") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Nivel de Acesso</mat-label>
+          <input matInput disabled value="{{ userForm.value.typeAccess }}" #typeAccess />
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Status da Conta</mat-label>
+          <input matInput disabled value="{{ userForm.value.status }}" #status />
+          @if (userForm.get('status')?.invalid) {
+            <mat-error>{{ formUtils.getErrorMessage(userForm, "status") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Nova Senha</mat-label>
+          <input matInput type="password" placeholder="Deixe em branco, caso não queira alterar" formControlName="newPassword" #newPassword />
+          @if (userForm.get('newPassword')?.invalid) {
+            <mat-error>{{ formUtils.getErrorMessage(userForm, "newPassword") }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Confirmar Senha</mat-label>
+          <input matInput type="password" placeholder="Deixe em branco, caso não queira alterar" formControlName="confirmNewPassword" #confirmNewPassword />
+          @if (userForm.get('confirmNewPassword')?.invalid) {
+            <mat-error>{{ formUtils.getErrorMessage(userForm, "confirmNewPassword") }}</mat-error>
+          }
+        </mat-form-field>
+
+      </form>
+    }
+  </mat-card-content>
+
+  <mat-card-actions class="actions-center">
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      Salvar
+    </button>
+    <button mat-raised-button (click)="onCancel()" class="btn-space">
+      Cancelar
+    </button>
+  </mat-card-actions>
+</mat-card>

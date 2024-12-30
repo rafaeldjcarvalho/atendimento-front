@@ -2,7 +2,7 @@
   <mat-toolbar class="navbar">
     <span>Student Service</span>
     <span class="space"></span>
-    <button mat-button class="icon-button account" aria-label="User Access">
+    <button mat-button class="icon-button account" aria-label="User Access" (click)="editUser(idUser? idUser : '')">
       <mat-icon>account_circle</mat-icon>
       @if(emailUser == undefined) {
         <span>Não Logado</span>
