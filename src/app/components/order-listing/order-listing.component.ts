@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { OrderService } from '../../interfaces/orderService.interface';
+import { ShowForAccessDirective } from '../../guards/directives/show-for-access.directive';
 
 @Component({
   selector: 'app-order-listing',
@@ -16,6 +17,7 @@ import { OrderService } from '../../interfaces/orderService.interface';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    ShowForAccessDirective,
     DatePipe
   ],
   templateUrl: './order-listing.component.html',

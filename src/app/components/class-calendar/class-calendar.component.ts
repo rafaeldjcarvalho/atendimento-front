@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerServiceService } from '../../services/order/customer-service.service';
+import { ShowForAccessDirective } from '../../guards/directives/show-for-access.directive';
 
 @Component({
   selector: 'app-class-calendar',
@@ -21,7 +22,8 @@ import { CustomerServiceService } from '../../services/order/customer-service.se
     CommonModule,
     FormsModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    ShowForAccessDirective
   ],
   templateUrl: './class-calendar.component.html',
   styleUrl: './class-calendar.component.scss'

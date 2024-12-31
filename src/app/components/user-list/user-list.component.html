@@ -14,12 +14,12 @@
                 @if (loggedUser != user.id && loggedUser != '') {
                   <div>
                     @if(user.access == "Aluno") {
-                      <button mat-button (click)="onAddMonitor(user)">Add Monitor</button>
+                      <button *showForAccess="['Admin', 'Professor']" mat-button (click)="onAddMonitor(user)">Add Monitor</button>
                     }
                     @if(user.access == "Monitor") {
-                      <button mat-button (click)="onRemoveMonitor(user)">Remove Monitor</button>
+                      <button *showForAccess="['Admin', 'Professor']" mat-button (click)="onRemoveMonitor(user)">Remove Monitor</button>
                     }
-                    <button mat-button (click)="onRemove(user)">Remove</button>
+                    <button *showForAccess="['Admin', 'Professor', 'Monitor']" mat-button (click)="onRemove(user)">Remove</button>
                   </div>
                 }
               </div>

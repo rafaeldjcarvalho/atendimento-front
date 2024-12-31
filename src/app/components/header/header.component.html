@@ -11,6 +11,15 @@
         {{ emailUser }}
       }
     </button>
+    <button mat-button disabled class="icon-button account" aria-label="User Access">
+      <mat-icon fontIcon="radio_button_checked"></mat-icon>
+      @if(statusUser == undefined) {
+        <span>Não Logado</span>
+      }
+      @else {
+        {{ statusUser }}
+      }
+    </button>
     <button mat-icon-button class="icon-button" aria-label="Loggout" (click)="loggout()">
       <mat-icon>logout</mat-icon>
     </button>

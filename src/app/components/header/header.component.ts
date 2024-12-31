@@ -21,6 +21,7 @@ import { UserWithToken } from '../../interfaces/user.interface';
 export class HeaderComponent {
 
   emailUser: string | undefined = '';
+  statusUser: string | undefined = '';
   idUser: string | undefined = '';
   private user$: Observable<UserWithToken | null>;
 
@@ -29,6 +30,7 @@ export class HeaderComponent {
     this.user$.subscribe((user) => {
       this.emailUser = user?.email;
       this.idUser = user?.id;
+      this.statusUser = user?.status;
     })
   }
 

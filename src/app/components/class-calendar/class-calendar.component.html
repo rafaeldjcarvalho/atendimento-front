@@ -15,7 +15,7 @@
   <div>
     <full-calendar [options]="calendarOptions"></full-calendar>
     <div class="btn-left">
-      <button mat-raised-button color="primary" (click)="onRemoveCalendar()">
+      <button *showForAccess="['Admin', 'Professor', 'Monitor']" mat-raised-button color="primary" (click)="onRemoveCalendar()">
         Delete Calendar
       </button>
     </div>

@@ -15,6 +15,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { ShowForAccessDirective } from '../../../guards/directives/show-for-access.directive';
 
 @Component({
   selector: 'app-class-list',
@@ -27,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     RouterLink,
+    ShowForAccessDirective,
     AsyncPipe,
     DatePipe
   ],
@@ -158,7 +160,7 @@ export class ClassListComponent {
       }
     });
   }
-  
+
 
   getUserLogged() {
     return this.authService.getLoggedInUserId();

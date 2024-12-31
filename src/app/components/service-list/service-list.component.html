@@ -2,7 +2,7 @@
   <mat-toolbar>
     {{ topico }}
     <div class="space"></div>
-    <button mat-mini-fab aria-label="Create" (click)="onAdd()">
+    <button *showForAccess="['Admin', 'Professor', 'Monitor']" mat-mini-fab aria-label="Create" (click)="onAdd()">
       <mat-icon>add</mat-icon>
     </button>
   </mat-toolbar>

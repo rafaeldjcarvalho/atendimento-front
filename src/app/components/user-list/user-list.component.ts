@@ -3,6 +3,7 @@ import { User } from '../../interfaces/user.interface';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { ShowForAccessDirective } from '../../guards/directives/show-for-access.directive';
 
 @Component({
   selector: 'app-user-list',
@@ -10,7 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     MatCardModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    ShowForAccessDirective
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'

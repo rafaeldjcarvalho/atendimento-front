@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { CustomerService, OrderService } from '../../interfaces/orderService.interface';
 import { DatePipe } from '@angular/common';
+import { ShowForAccessDirective } from '../../guards/directives/show-for-access.directive';
 
 @Component({
   selector: 'app-service-list',
@@ -16,6 +17,7 @@ import { DatePipe } from '@angular/common';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    ShowForAccessDirective,
     DatePipe
   ],
   templateUrl: './service-list.component.html',

@@ -2,7 +2,7 @@
   <mat-toolbar color="primary">
     Turmas Disponíveis
     <div class="space"></div>
-    <button mat-flat-button color="" (click)="onAdd()">New Class</button>
+    <button *showForAccess="['Admin', 'Professor']" mat-flat-button color="" (click)="onAdd()">New Class</button>
   </mat-toolbar>
 
   @if (classList$ | async; as classes) {
