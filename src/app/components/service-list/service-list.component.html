@@ -14,7 +14,7 @@
             <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{ order.title }}</mat-card-title>
-                  <mat-card-subtitle>{{ order.date | date: 'dd/MM/yyyy' }} | {{order.time_start}} - {{order.time_end}}</mat-card-subtitle>
+                  <mat-card-subtitle>{{ order.date | date: 'dd/MM/yyyy' }} | {{order.time_start}} - {{order.time_end}} - status: {{ order.status }}</mat-card-subtitle>
                   @if (userLogged != null && userLogged == order.userId) {
                     <div class="button-row">
                       <button mat-mini-fab aria-label="Edit" (click)="onEdit(order)">
@@ -37,7 +37,7 @@
                 <button mat-button (click)="onReject(order)">Reject</button>
               </mat-card-actions>
             } @else {
-                @if (userLogged != null && (userLogged == order.userId || userLogged == order.studentId)) {
+                @if (userLogged != null && (userLogged == order.userId || userLogged == order.studentId) && order.status == 'Pendente') {
                   <mat-card-actions>
                     <button mat-icon-button [matMenuTriggerFor]="menu">
                       <mat-icon>more_vert</mat-icon>
