@@ -1,0 +1,50 @@
+<mat-card class="card">
+  <mat-toolbar color="primary">
+    Minhas Turmas
+    <div class="space"></div>
+  </mat-toolbar>
+
+  @if (classList != null) {
+    <div class="container">
+      @for (classItem of classList; track $index) {
+        <mat-card appearance="outlined">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>
+                @if (getUserLogged() != null) {
+                  <a routerLink='/user/class/{{ classItem.id }}'>{{ classItem.name }}</a>
+                } @else {
+                  {{ classItem.name }}
+                }
+              </mat-card-title>
+              <mat-card-subtitle>{{ classItem.date | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
+              @if (getUserLogged() != null && classItem.owner?.id == getUserLogged()) {
+                <div class="button-row">
+                  <button mat-mini-fab aria-label="Edit" (click)="onEdit(classItem)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab aria-label="Delete" (click)="onRemove(classItem)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              }
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <span>Created by {{ classItem.owner?.name }}</span>
+            <span class="space"></span>
+            <!-- Só deve aparecer se a turma não estiver na lista de turmas do usuário logado-->
+            <button mat-raised-button (click)="onUnSubscribe(classItem)">Unsubscribe</button>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+</mat-card>
+
+
+

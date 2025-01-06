@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserWithToken } from '../../interfaces/user.interface';
+import { SidenavService } from '../../services/sidenav.service';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,11 @@ export class HeaderComponent {
   idUser: string | undefined = '';
   private user$: Observable<UserWithToken | null>;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private sidenavService: SidenavService
+  ){
     this.user$ = this.authService.user$;
     this.user$.subscribe((user) => {
       this.emailUser = user?.email;
@@ -43,5 +48,9 @@ export class HeaderComponent {
     if(id != '') {
       this.router.navigate(['/user/edit', id]);
     }
+  }
+
+  toggleSidenav(): void {
+    this.sidenavService.toggle();
   }
 }

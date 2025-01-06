@@ -1,5 +1,8 @@
 <header>
   <mat-toolbar class="navbar">
+    <button mat-icon-button aria-label="Toggle Sidenav" (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
     <span>Student Service</span>
     <span class="space"></span>
     <button mat-button class="icon-button account" aria-label="User Access" (click)="editUser(idUser? idUser : '')">

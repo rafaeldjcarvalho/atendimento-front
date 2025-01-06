@@ -14,6 +14,7 @@ import { OrderResolver } from './guards/resolvers/order.resolver';
 import { ServiceFormComponent } from './pages/class/service-form/service-form.component';
 import { ServiceResolver } from './guards/resolvers/service.resolver';
 import { UserDetailsComponent } from './pages/user/user-details/user-details.component';
+import { HomeComponent } from './pages/home/home/home.component';
 
 
 export const routes: Routes = [
@@ -31,7 +32,8 @@ export const routes: Routes = [
     component: DefaultAppLayoutComponent,
     //canActivate: [IsLoggedInGuard],
     children: [
-      { path: 'home', component: ClassListComponent },
+      { path: 'home', component: HomeComponent },
+      { path: 'classes', component: ClassListComponent },
       { path: 'edit/:id', component: UserDetailsComponent },
       { path: 'class/new', component: ClassDetailsComponent, resolve: { classes: ClassResolver } },
       { path: 'class/edit/:id', component: ClassDetailsComponent, resolve: { classes: ClassResolver }},
