@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Class } from '../../interfaces/class.interface';
 import { first } from 'rxjs';
 import { ClassPage } from '../../interfaces/class-page.interface';
+import { ReportData } from '../../interfaces/report/report.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,10 @@ export class ClassService {
     return this.httpClient.get<any[]>(`${this.API}/${classId}/calendars`);
   }
 
+  getReport(classId: string) {
+    return this.httpClient.get<ReportData>(`${this.API}/${classId}/report`);
+  }
+
   getSchedules(calendarId: number) {
     return this.httpClient.get<any[]>(`http://localhost:8080/api/calendar/${calendarId}/schedules`);
   }
@@ -83,4 +88,6 @@ export class ClassService {
   demoteToStudent(classId: string, userId: string) {
     return this.httpClient.put(`${this.API}/${classId}/demote/${userId}`, null).pipe(first());
   }
+
+
 }

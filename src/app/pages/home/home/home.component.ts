@@ -6,10 +6,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ShowForAccessDirective } from '../../../guards/directives/show-for-access.directive';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Class } from '../../../interfaces/class.interface';
-import { catchError, first, Observable, of, tap } from 'rxjs';
+import { catchError, first, of, tap } from 'rxjs';
 import { ClassService } from '../../../services/class/class.service';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -60,6 +59,9 @@ export class HomeComponent {
             return of([]);
           })
         ).subscribe();
+      } else if (sessionStorage.getItem('userData')) {
+        //console.log(user);
+        window.location.reload();
       }
     });
   }

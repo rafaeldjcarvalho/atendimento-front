@@ -15,6 +15,7 @@ import { ServiceFormComponent } from './pages/class/service-form/service-form.co
 import { ServiceResolver } from './guards/resolvers/service.resolver';
 import { UserDetailsComponent } from './pages/user/user-details/user-details.component';
 import { HomeComponent } from './pages/home/home/home.component';
+import { ReportListComponent } from './pages/report/report-list/report-list.component';
 
 
 export const routes: Routes = [
@@ -34,6 +35,7 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'classes', component: ClassListComponent },
+      { path: 'report', component: ReportListComponent },
       { path: 'edit/:id', component: UserDetailsComponent },
       { path: 'class/new', component: ClassDetailsComponent, resolve: { classes: ClassResolver } },
       { path: 'class/edit/:id', component: ClassDetailsComponent, resolve: { classes: ClassResolver }},
