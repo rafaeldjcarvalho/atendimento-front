@@ -9,7 +9,7 @@
   </mat-select>
 </mat-form-field>
 
-@if (reportData) {
+@if (isLoaded) {
   <div class="report-container">
     <!-- Total de Atendimentos -->
     <mat-card class="summary-card">
@@ -69,6 +69,16 @@
           </table>
         </mat-card-content>
       }
+    </mat-card>
+
+    <mat-card *showForAccess="['Admin', 'Professor', 'Monitor']" class="summary-card">
+      <mat-card-title>Baixar Relatório</mat-card-title>
+      <mat-card-content>
+        <div class="summary-item">
+          <span>PDF:</span>
+          <button mat-raised-button (click)="downloadPdf()">Baixar PDF</button>
+        </div>
+      </mat-card-content>
     </mat-card>
   </div>
 

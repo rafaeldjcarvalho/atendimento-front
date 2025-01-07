@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Class } from '../../interfaces/class.interface';
-import { first } from 'rxjs';
+import { first, Observable } from 'rxjs';
 import { ClassPage } from '../../interfaces/class-page.interface';
 import { ReportData } from '../../interfaces/report/report.interface';
 
@@ -69,6 +69,13 @@ export class ClassService {
     return this.httpClient.get<ReportData>(`${this.API}/${classId}/report`);
   }
 
+  generateReport(classId: string): Observable<Blob> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/pdf' // Indicando que esperamos um PDF como resposta
+    });
+    return this.httpClient.get(`${this.API}/${classId}/report/pdf`, { headers, responseType: 'blob' });
+  }
+
   getSchedules(calendarId: number) {
     return this.httpClient.get<any[]>(`http://localhost:8080/api/calendar/${calendarId}/schedules`);
   }
@@ -88,6 +95,4 @@ export class ClassService {
   demoteToStudent(classId: string, userId: string) {
     return this.httpClient.put(`${this.API}/${classId}/demote/${userId}`, null).pipe(first());
   }
-
-
 }
