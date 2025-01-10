@@ -70,7 +70,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.userForm.value);
+    //console.log(this.userForm.value);
     if (this.userForm.valid) {
       if(this.userForm.value.newPassword === this.userForm.value.confirmNewPassword) {
         this.userService.updateUser(this.userForm.value.id, {name: this.userForm.value.name, email: this.userForm.value.email, password: this.userForm.value.confirmNewPassword, typeAccess: this.userForm.value.typeAccess, status: this.userForm.value.status}).subscribe({

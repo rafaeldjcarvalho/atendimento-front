@@ -6,10 +6,9 @@ import { OrderServiceService } from '../../../services/order/order-service.servi
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { OrderPage } from '../../../interfaces/order-page.interface';
-import { CustomerService, OrderService } from '../../../interfaces/orderService.interface';
+import { OrderService } from '../../../interfaces/orderService.interface';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { ServiceListComponent } from "../../../components/service-list/service-list.component";
+import { AsyncPipe } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +20,6 @@ import { OrderListingComponent } from "../../../components/order-listing/order-l
   standalone: true,
   imports: [
     AsyncPipe,
-    ServiceListComponent,
     MatProgressSpinnerModule,
     MatPaginatorModule,
     FormsModule,
@@ -141,7 +139,7 @@ export class OrderListComponent implements AfterViewInit {
   }
 
   onReject(order: OrderService) {
-    console.log("Rejeitado: " + order.id);
+    //console.log("Rejeitado: " + order.id);
     this.onRemove(order);
   }
 
