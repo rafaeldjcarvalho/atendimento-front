@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../../../interfaces/orderService.interface';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
 import { ServiceDialogComponent } from '../../../components/service-dialog/service-dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-customer-service-list',
@@ -72,8 +73,8 @@ export class CustomerServiceListComponent implements AfterViewInit {
             this.pageIndex = pageEvent.pageIndex;
             this.pageSize = pageEvent.pageSize;
           }),
-          catchError(error => {
-            this.onError('Erro ao carregar atendimentos.');
+          catchError((error: HttpErrorResponse) => {
+            this.handleError(error);
             return of({ services: [], totalElements: 0, totalPages: 0 })
           })
         );
@@ -86,8 +87,8 @@ export class CustomerServiceListComponent implements AfterViewInit {
                 this.pageIndex = pageEvent.pageIndex;
                 this.pageSize = pageEvent.pageSize;
               }),
-              catchError(error => {
-                this.onError('Erro ao carregar atendimentos.');
+              catchError((error: HttpErrorResponse) => {
+                this.handleError(error);
                 return of({ services: [], totalElements: 0, totalPages: 0 })
               })
             );
@@ -97,8 +98,8 @@ export class CustomerServiceListComponent implements AfterViewInit {
                 this.pageIndex = pageEvent.pageIndex;
                 this.pageSize = pageEvent.pageSize;
               }),
-              catchError(error => {
-                this.onError('Erro ao carregar atendimentos.');
+              catchError((error: HttpErrorResponse) => {
+                this.handleError(error);
                 return of({ services: [], totalElements: 0, totalPages: 0 })
               })
             );
@@ -106,10 +107,6 @@ export class CustomerServiceListComponent implements AfterViewInit {
         }
       })
     }
-  }
-
-  onError(errorMsg: string) {
-    this.toastService.error(errorMsg);
   }
 
   onAdd() {
@@ -127,13 +124,15 @@ export class CustomerServiceListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.customerServiceService.remove(service.id).subscribe(
-          () => {
+        this.customerServiceService.remove(service.id).subscribe({
+          next: () => {
             this.refresh();
             this.toastService.success("Atendimento removido com sucesso.");
           },
-          () => this.onError('Erro ao tentar remover o atendimento.')
-        );
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
+        });
       }
     });
   }
@@ -149,9 +148,23 @@ export class CustomerServiceListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Presença registrada:', result);
+        //console.log('Presença registrada:', result);
       }
     });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

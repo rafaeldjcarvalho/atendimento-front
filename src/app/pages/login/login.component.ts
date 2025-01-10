@@ -5,6 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface LoginForm {
   email: FormControl,
@@ -46,11 +47,27 @@ export class LoginComponent {
         this.toastService.success("Login realizado com sucesso!");
         //this.router.navigate(["home"]);
       },
-      error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde."),
+      error: (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
     })
   }
 
   navigate() {
     this.router.navigate(["signup"]);
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 }

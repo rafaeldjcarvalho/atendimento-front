@@ -1,5 +1,5 @@
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction';
@@ -13,6 +13,7 @@ import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confi
 import { ToastrService } from 'ngx-toastr';
 import { CustomerServiceService } from '../../services/order/customer-service.service';
 import { ShowForAccessDirective } from '../../guards/directives/show-for-access.directive';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-class-calendar',
@@ -208,10 +209,26 @@ export class ClassCalendarComponent {
             //(trigger as HTMLElement)?.focus();
             this.toastService.success("Calendário removido com sucesso!")
           },
-          error: () => this.toastService.error('Erro ao tentar remover calendário.')
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
         });
       }
     });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

@@ -3,12 +3,13 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogModule, MatDialogRef, MatDi
 import { AttendanceService } from '../../services/order/attendance.service';
 import { CustomerService } from '../../interfaces/orderService.interface';
 import { CustomerServiceService } from '../../services/order/customer-service.service';
-import { first, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { UserService } from '../../services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { MatButtonModule } from '@angular/material/button';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-service-dialog',
@@ -85,7 +86,9 @@ export class ServiceDialogComponent implements OnInit {
         ownerLoaded = true;
         this.checkLoggedUser(ownerLoaded, studentLoaded);
       },
-      error: () => this.onError("Erro ao carregar o proprietário do atendimento."),
+      error: (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
     });
 
     this.userService.loadById(studentId).subscribe({
@@ -95,7 +98,9 @@ export class ServiceDialogComponent implements OnInit {
         studentLoaded = true;
         this.checkLoggedUser(ownerLoaded, studentLoaded);
       },
-      error: () => this.onError("Erro ao carregar o aluno do atendimento."),
+      error: (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
     });
   }
 
@@ -117,13 +122,11 @@ export class ServiceDialogComponent implements OnInit {
           this.dialogRef.close(status);
           this.onSuccess("Presença alterada com suscesso.");
         },
-        error: () => this.onError("Erro ao alterar presença.")
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       });
     }
-  }
-
-  onError(errorMsg: string) {
-    this.toastService.error(errorMsg);
   }
 
   onSuccess(msg: string) {
@@ -138,7 +141,9 @@ export class ServiceDialogComponent implements OnInit {
           this.onSuccess('Presença atualizada com sucesso!');
           this.dialogRef.close();
         },
-        error: () => this.onError('Erro ao atualizar presença.')
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       });
     } else {
       // Criar nova presença
@@ -149,10 +154,26 @@ export class ServiceDialogComponent implements OnInit {
             this.onSuccess('Presença registrada com sucesso!');
             this.dialogRef.close();
           },
-          error: () => this.onError('Erro ao registrar presença.')
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
         });
       }
     }
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

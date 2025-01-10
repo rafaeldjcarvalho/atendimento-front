@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ShowForAccessDirective } from '../../../guards/directives/show-for-access.directive';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-class-list',
@@ -64,8 +65,8 @@ export class ClassListComponent {
           this.pageIndex = pageEvent.pageIndex;
           this.pageSize = pageEvent.pageSize;
         }),
-        catchError(error => {
-          this.onError('Erro ao carregar turmas.');
+        catchError((error: HttpErrorResponse) => {
+          this.handleError(error);
           return of({ classes: [], totalElements: 0, totalPages: 0 })
         })
       );
@@ -76,8 +77,8 @@ export class ClassListComponent {
           tap(userClasses => {
             this.userClassIds = new Set(userClasses.map(userClass => userClass.id));
           }),
-          catchError(error => {
-            this.onError('Erro ao carregar turmas do usuário.');
+          catchError((error: HttpErrorResponse) => {
+            this.handleError(error);
             return of([]);
           })
         ).subscribe();
@@ -87,10 +88,6 @@ export class ClassListComponent {
 
   isClassInUserClasses(classItem: Class): boolean {
     return this.userClassIds.has(classItem.id);
-  }
-
-  onError(errorMsg: string) {
-    this.toastService.error(errorMsg);
   }
 
   onAdd() {
@@ -108,13 +105,15 @@ export class ClassListComponent {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.classService.remove(classes.id).subscribe(
-          () => {
+        this.classService.remove(classes.id).subscribe({
+          next: () => {
             this.refresh();
             this.toastService.success("Turma removida com sucesso");
           },
-          () => this.onError('Erro ao tentar remover turma.')
-        );
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
+        });
       }
     });
   }
@@ -132,7 +131,9 @@ export class ClassListComponent {
               this.refresh();
               this.toastService.success("Inscrição realizada com sucesso");
             },
-            error: () => this.toastService.error("Inscrição não foi realizada."),
+            error: (error: HttpErrorResponse) => {
+              this.handleError(error);
+            },
           });
         }
       })
@@ -153,7 +154,9 @@ export class ClassListComponent {
                 this.refresh();
                 this.toastService.success("Inscrição cancelada com sucesso");
               },
-              error: () => this.toastService.error("Erro! Inscrição não removida."),
+              error: (error: HttpErrorResponse) => {
+                this.handleError(error);
+              },
             })
           }
         })
@@ -161,9 +164,22 @@ export class ClassListComponent {
     });
   }
 
-
   getUserLogged() {
     return this.authService.getLoggedInUserId();
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

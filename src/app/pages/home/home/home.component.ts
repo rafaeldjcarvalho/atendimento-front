@@ -14,6 +14,7 @@ import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -54,9 +55,9 @@ export class HomeComponent {
           tap(userClasses => {
             this.classList = userClasses;
           }),
-          catchError(error => {
-            this.onError('Erro ao carregar turmas do usuário.');
-            return of([]);
+          catchError((error: HttpErrorResponse) => {
+              this.handleError(error);
+              return of([]);
           })
         ).subscribe();
       } else if (sessionStorage.getItem('userData')) {
@@ -64,10 +65,6 @@ export class HomeComponent {
         window.location.reload();
       }
     });
-  }
-
-  onError(errorMsg: string) {
-    this.toastService.error(errorMsg);
   }
 
   getUserLogged() {
@@ -85,13 +82,15 @@ export class HomeComponent {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.classService.remove(classes.id).subscribe(
-          () => {
+        this.classService.remove(classes.id).subscribe({
+          next: () => {
             this.refresh();
             this.toastService.success("Turma removida com sucesso");
           },
-          () => this.onError('Erro ao tentar remover turma.')
-        );
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
+        });
       }
     });
   }
@@ -110,11 +109,27 @@ export class HomeComponent {
                 this.refresh();
                 this.toastService.success("Inscrição cancelada com sucesso");
               },
-              error: () => this.toastService.error("Erro! Inscrição não removida."),
+              error: (error: HttpErrorResponse) => {
+                this.handleError(error);
+              }
             })
           }
         })
       }
     });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 }

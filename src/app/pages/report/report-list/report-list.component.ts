@@ -11,6 +11,8 @@ import { MatTableModule } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ShowForAccessDirective } from '../../../guards/directives/show-for-access.directive';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-report-list',
@@ -45,7 +47,8 @@ export class ReportListComponent implements OnInit{
 
   constructor(
     private classService: ClassService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -59,16 +62,21 @@ export class ReportListComponent implements OnInit{
   loadReportData(): void {
     if (this.selectedClassId) {
       const classId = this.selectedClassId.toString();
-      this.classService.getReport(classId).subscribe(data => {
-        this.isLoaded = true;
-        this.reportData = data;
-        this.weeklyUsageArray = Object.values(this.reportData.weeklyUsage).map(user => ({
-          userName: user.userName,
-          hoursByWeekArray: Object.entries(user.hoursByWeek).map(([week, hours]) => ({
-            week,
-            hours
-          }))
-        }));
+      this.classService.getReport(classId).subscribe({
+        next: (data) => {
+          this.isLoaded = true;
+          this.reportData = data;
+          this.weeklyUsageArray = Object.values(this.reportData.weeklyUsage).map(user => ({
+            userName: user.userName,
+            hoursByWeekArray: Object.entries(user.hoursByWeek).map(([week, hours]) => ({
+              week,
+              hours
+            }))
+          }));
+        },
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       })
     }
   }
@@ -87,11 +95,25 @@ export class ReportListComponent implements OnInit{
           a.click();
           window.URL.revokeObjectURL(url); // Revogar o objeto URL após o download
         },
-        error: (error) => {
-          console.error('Erro ao gerar o relatório', error);
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
         }
       });
     }
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

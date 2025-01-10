@@ -15,6 +15,7 @@ import { ClassService } from '../../../services/class/class.service';
 import { MatSelectModule } from '@angular/material/select';
 import { Schedule } from '../../../interfaces/schedule.interface';
 import { Calendar } from '../../../interfaces/calendar.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-order-form',
@@ -79,7 +80,9 @@ export class OrderFormComponent implements OnInit {
     if (this.orderForm.valid) {
       this.service.save(this.orderForm.value).subscribe({
         next: () => this.onSuccess(),
-        error: () => this.onError()
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       });
     } else {
       this.formUtils.validateAllFormFields(this.orderForm);
@@ -93,10 +96,6 @@ export class OrderFormComponent implements OnInit {
   private onSuccess() {
     this.toastService.success('Pedido adicionado com sucesso!');
     this.onCancel();
-  }
-
-  private onError() {
-    this.toastService.error('ERRO ao criar pedido.');
   }
 
   onCalendarChange(calendar: any): void {
@@ -258,5 +257,19 @@ export class OrderFormComponent implements OnInit {
       day: 'numeric',
     };
     return new Intl.DateTimeFormat('pt-BR', options).format(new Date(date));
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 }

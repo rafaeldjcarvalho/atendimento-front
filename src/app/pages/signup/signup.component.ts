@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { PrimarySelectComponent } from "../../components/primary-select/primary-select.component";
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface SignupForm {
   name: FormControl,
@@ -59,7 +60,9 @@ export class SignupComponent {
           this.toastService.success("Conta criada com sucesso!");
           //this.router.navigate(["login"]);
         },
-        error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde.")
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       })
     } else {
       this.toastService.error("Por favor, confirme corretamente sua senha.");
@@ -69,5 +72,19 @@ export class SignupComponent {
 
   navigate() {
     this.router.navigate(["login"]);
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 }

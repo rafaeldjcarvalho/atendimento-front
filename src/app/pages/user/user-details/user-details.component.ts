@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Location } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { LoginResponse } from '../../../types/login-response.type';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-details',
@@ -79,10 +80,12 @@ export class UserDetailsComponent implements OnInit {
             this.authService.saveTokenToSessionStore(response.token);
             this.authService.pushNewUser(response.token);
           },
-          error: () => this.onError("Não foi possível atualizar os dados.")
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
         });
       } else {
-        this.onError("Senha não confirmada.");
+        this.showToastrError("Senha não confirmada.");
       }
     } else {
       this.formUtils.validateAllFormFields(this.userForm);
@@ -94,11 +97,21 @@ export class UserDetailsComponent implements OnInit {
     this.onCancel();
   }
 
-  private onError(msg: string) {
-    this.toastService.error(`Error: ${msg}`);
-  }
-
   onCancel() {
     this.location.back();
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 }

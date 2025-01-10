@@ -15,6 +15,7 @@ import { UserService } from '../../../services/user/user.service';
 import { User } from '../../../interfaces/user.interface';
 import { MatSelectModule } from '@angular/material/select';
 import { OrderServiceService } from '../../../services/order/order-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-service-form',
@@ -84,7 +85,9 @@ export class ServiceFormComponent implements OnInit {
           this.onSuccess("Atendimento adicionado com sucesso!");
           this.onRemoveService();
         },
-        error: () => this.onError("ERRO ao criar atendimento.")
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       });
     } else {
       this.formUtils.validateAllFormFields(this.serviceForm);
@@ -94,7 +97,9 @@ export class ServiceFormComponent implements OnInit {
   onRemoveService() {
     if(this.orderId != '') {
       this.orderService.remove(this.orderId).subscribe({
-        error: () => console.error("Erro ao remover Pedido.")
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       });
     }
   }
@@ -108,8 +113,18 @@ export class ServiceFormComponent implements OnInit {
     this.onCancel();
   }
 
-  private onError(msg: string) {
-    this.toastService.error(msg);
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

@@ -10,6 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
 import { ClassService } from '../../../services/class/class.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-class-user-list',
@@ -56,13 +57,9 @@ export class ClassUserListComponent implements AfterViewInit {
         this.students$ = of(adjustedStudents);
       });
     } catch (error) {
-      this.onError("Erro ao carregar usuários da turma.");
+      this.showToastrError("Erro ao carregar usuários da turma.");
       console.log(error)
     }
-  }
-
-  onError(errorMsg: string) {
-    this.toastService.error(errorMsg);
   }
 
   getUserLogged() : string {
@@ -82,7 +79,9 @@ export class ClassUserListComponent implements AfterViewInit {
             this.refresh();
             this.toastService.success("Usuário removido da turma com sucesso.");
           },
-          error: () => this.toastService.error("Erro! Usuário não removido da turma."),
+          error:(error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
         })
       }
     });
@@ -100,9 +99,9 @@ export class ClassUserListComponent implements AfterViewInit {
             this.refresh();
             this.toastService.success("Monitor adicionado a turma com sucesso.");
           },
-          error: () => {
-            this.toastService.warning('O aluno já é monitor de outra turma.');
-          },
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
         })
       }
     });
@@ -120,10 +119,26 @@ export class ClassUserListComponent implements AfterViewInit {
             this.refresh();
             this.toastService.success("Monitor removido da turma com sucesso.");
           },
-          error: () => this.toastService.error("Erro! Monitor não removido da turma."),
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
         })
       }
     });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401 ||  error.status === 500) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

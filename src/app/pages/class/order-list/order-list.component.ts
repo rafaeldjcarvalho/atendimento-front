@@ -14,6 +14,7 @@ import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { OrderListingComponent } from "../../../components/order-listing/order-listing.component";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-order-list',
@@ -71,8 +72,8 @@ export class OrderListComponent implements AfterViewInit {
             this.pageIndex = pageEvent.pageIndex;
             this.pageSize = pageEvent.pageSize;
           }),
-          catchError(error => {
-            this.onError('Erro ao carregar pedidos.');
+          catchError( (error: HttpErrorResponse) => {
+            this.handleError(error);
             return of({ orders: [], totalElements: 0, totalPages: 0 })
           })
         );
@@ -85,17 +86,13 @@ export class OrderListComponent implements AfterViewInit {
               this.pageIndex = pageEvent.pageIndex;
               this.pageSize = pageEvent.pageSize;
             }),
-            catchError(error => {
-              this.onError('Erro ao carregar pedidos.');
+            catchError( (error: HttpErrorResponse) => {
+              this.handleError(error);
               return of({ orders: [], totalElements: 0, totalPages: 0 })
             })
           );
       }
     }
-  }
-
-  onError(errorMsg: string) {
-    this.toastService.error(errorMsg);
   }
 
   onAdd() {
@@ -113,13 +110,15 @@ export class OrderListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.orderServiceService.remove(order.id).subscribe(
-          () => {
+        this.orderServiceService.remove(order.id).subscribe({
+          next: () => {
             this.refresh();
             this.toastService.success("Pedido removido com sucesso");
           },
-          () => this.onError('Erro ao tentar remover o pedido.')
-        );
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
+        });
       }
     });
   }
@@ -134,13 +133,27 @@ export class OrderListComponent implements AfterViewInit {
       //let customerService: CustomerService = { id: '', title: order.title, description: order.description, date: order.date, time_start: order.time_start, time_end: order.time_end, status: order.status, classId: order.classId, studentId: order.userId, userId: user};
       this.router.navigate(['/user/class/', order.classId, 'newService', order.id]);
     } else {
-      this.onError("Usuário não está logado.");
+      this.showToastrError("Usuário não está logado.");
     }
   }
 
   onReject(order: OrderService) {
     //console.log("Rejeitado: " + order.id);
     this.onRemove(order);
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }

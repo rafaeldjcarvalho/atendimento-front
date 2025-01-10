@@ -7,12 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormUtilsService } from '../../../services/form/form-utils.service';
 import { ClassService } from '../../../services/class/class.service';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-calendar-form',
@@ -102,7 +103,9 @@ export class CalendarFormComponent implements OnInit{
           this.toastService.success('Calendário adicionado com sucesso!');
           this.onCancel();
         },
-        error: () => this.toastService.error('Erro ao adicionar calendário.')
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
       })
     } else {
       this.formUtils.validateAllFormFields(this.calendarForm);
@@ -111,5 +114,19 @@ export class CalendarFormComponent implements OnInit{
 
   onCancel() {
     this.location.back();
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 }

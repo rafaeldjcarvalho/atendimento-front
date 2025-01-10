@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-class-details',
@@ -56,7 +57,12 @@ export class ClassDetailsComponent implements OnInit {
   onSubmit() {
     if (this.classForm.valid) {
       this.service.save(this.classForm.value)
-        .subscribe(result => this.onSuccess(), error => this.onError());
+        .subscribe({
+          next: (result) => this.onSuccess(),
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          }
+        });
     } else {
       this.formUtils.validateAllFormFields(this.classForm);
     }
@@ -71,8 +77,18 @@ export class ClassDetailsComponent implements OnInit {
     this.onCancel();
   }
 
-  private onError() {
-    this.toastService.error("Erro ao salvar turma.")
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status === 403 || error.status === 401) {
+      const errorMessage = error.error?.error || 'Erro desconhecido'; // Ajuste conforme o formato da resposta
+      this.showToastrError(errorMessage);
+    } else {
+      this.showToastrError('Erro ao processar sua solicitação.');
+    }
+  }
+
+  private showToastrError(message: string): void {
+    // Chama o toastr para mostrar a mensagem de erro
+    this.toastService.error(message, 'Erro');
   }
 
 }
