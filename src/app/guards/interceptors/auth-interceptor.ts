@@ -31,6 +31,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             catchError((error) => {
               if (error.status === 403) {
                 // Exibe uma mensagem de erro e redireciona o usuário para login
+                authService.logout(); // Atualiza o estado da autenticação
                 toastr.error('Sua sessão expirou. Faça login novamente.', 'Sessão Expirada');
                 router.navigate(['/login']);
               }

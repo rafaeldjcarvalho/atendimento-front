@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, delay, map, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, delay, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { LoginResponse } from '../types/login-response.type';
 import { HttpClient } from '@angular/common/http';
 import { UserWithToken } from '../interfaces/user.interface';
@@ -30,9 +30,15 @@ export class AuthService {
       tap((userToken) => {
         this.saveTokenToSessionStore(userToken.token);
         this.pushNewUser(userToken.token);
+        //console.log("Conclui o carregamento do token");
       }),
       switchMap(() => this.isLoggedIn$.pipe(take(1))), // Aguarda o estado de login
-      tap(() => this.redirectTo("user/home")),
+      tap((isLoggedIn) => {
+        if (isLoggedIn) {
+          //console.log("Logado");
+          this.redirectTo("user/home");
+        }
+      }),
       //ignoreElements()
     );
   }
@@ -53,6 +59,24 @@ export class AuthService {
   getLoggedInUserId(): string | null {
     const currentUser = this.user.getValue();
     return currentUser ? currentUser.id : null;
+  }
+
+  public checkAndUpdateLoginState(): Observable<boolean> {
+    const storedToken = sessionStorage.getItem(USER_SESSION_STORAGE_KEY);
+
+    if (storedToken) {
+      try {
+        this.pushNewUser(storedToken); // Atualiza o estado local
+        return this.isLoggedIn$.pipe(take(1)); // Retorna o estado atualizado
+      } catch (error) {
+        console.error('Erro ao processar o token armazenado:', error);
+        this.logout();
+        return of(false);
+      }
+    } else {
+      this.logout();
+      return of(false);
+    }
   }
 
   private redirectTo(page: string): void {

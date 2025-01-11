@@ -10,14 +10,12 @@ export class IsLoggedInGuard {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn$.pipe(
-      take(1), // Obtém apenas o primeiro valor emitido
+    return this.authService.checkAndUpdateLoginState().pipe(
       map((isLoggedIn) => {
-        //console.log("Logado? " + isLoggedIn);
         if (isLoggedIn) {
-          return true; // Permite acesso
+          return true; // Permite o acesso
         } else {
-          this.router.navigate(['login']); // Redireciona para login se não logado
+          this.router.navigate(['login']); // Redireciona para login se não estiver logado
           return false;
         }
       })

@@ -31,7 +31,7 @@ export const routes: Routes = [
   {
     path: 'user',
     component: DefaultAppLayoutComponent,
-    //canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard],
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'classes', component: ClassListComponent },

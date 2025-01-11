@@ -8,7 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Class } from '../../../interfaces/class.interface';
-import { catchError, first, of, tap } from 'rxjs';
+import { catchError, filter, first, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ClassService } from '../../../services/class/class.service';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,6 +36,8 @@ export class HomeComponent {
 
   classList: Class[] | null = null;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private classService: ClassService,
     private authService: AuthService,
@@ -47,24 +49,30 @@ export class HomeComponent {
     this.refresh();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   refresh() {
-    this.authService.user$.pipe(first()).subscribe(user => {
-      if (user) {
-        this.classService.getClassesUser(user.id).pipe(
-          first(), // Garante que a chamada HTTP seja feita apenas uma vez
-          tap(userClasses => {
-            this.classList = userClasses;
-          }),
-          catchError((error: HttpErrorResponse) => {
+    this.authService.user$.pipe(
+      first(), // Garante que a lógica seja executada apenas uma vez
+      takeUntil(this.destroy$),
+      switchMap((user) => {
+        if (user) {
+          return this.classService.getClassesUser(user.id).pipe(
+            tap((userClasses) => (this.classList = userClasses)),
+            catchError((error: HttpErrorResponse) => {
               this.handleError(error);
               return of([]);
-          })
-        ).subscribe();
-      } else if (sessionStorage.getItem('userData')) {
-        //console.log(user);
-        window.location.reload();
-      }
-    });
+            })
+          );
+        } else {
+          this.router.navigate(['/login']); // Redireciona se o usuário não estiver logado
+          return of([]); // Retorna um Observable vazio
+        }
+      })
+    ).subscribe();
   }
 
   getUserLogged() {
@@ -100,23 +108,29 @@ export class HomeComponent {
       data: 'Tem certeza que deseja cancelar a inscrição?',
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.authService.user$.subscribe(user => {
-          if(user) {
-            this.classService.cancelSubscribe(classes.id, user.id).subscribe({
-              next: () => {
-                this.refresh();
-                this.toastService.success("Inscrição cancelada com sucesso");
-              },
-              error: (error: HttpErrorResponse) => {
-                this.handleError(error);
-              }
-            })
-          }
-        })
-      }
-    });
+    dialogRef.afterClosed().pipe(
+      first(),
+      filter((result) => result),
+      switchMap(() =>
+        this.authService.user$.pipe(
+          first(),
+          switchMap((user) =>
+            user
+              ? this.classService.cancelSubscribe(classes.id, user.id).pipe(
+                  tap(() => {
+                    this.refresh();
+                    this.toastService.success('Inscrição cancelada com sucesso');
+                  }),
+                  catchError((error: HttpErrorResponse) => {
+                    this.handleError(error);
+                    return of();
+                  })
+                )
+              : of()
+          )
+        )
+      )
+    ).subscribe();
   }
 
   private handleError(error: HttpErrorResponse): void {
