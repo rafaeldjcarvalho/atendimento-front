@@ -1,5 +1,5 @@
 @import "../../../styles/variables.scss";
-
+/*
 main {
   display: flex;
   flex-direction: row;
@@ -87,6 +87,126 @@ main {
           border: 1px solid $primary-color;
           color: $primary-color;
         }
+      }
+    }
+  }
+}
+*/
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Garante que o layout ocupe toda a altura da tela */
+  background: linear-gradient(135deg, $green-light, $gray-light);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Garante que a altura da seção ocupe a tela inteira */
+}
+
+.main-section {
+  flex-grow: 1; /* Permite que a imagem ocupe a maior parte da altura disponível */
+  text-align: center;
+  padding: 20px;
+  //background-color: $gray-light;
+  color: $gray-dark;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre imagem e título */
+}
+
+.form-section {
+  flex-grow: 1; /* Ocupa o restante da tela */
+  max-width: 450px; /* Limita a largura para que o formulário não fique muito largo */
+  width: 100%;
+  padding: 40px 30px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    margin-bottom: 20px;
+    max-width: 80px; /* Limita o tamanho do logo */
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: $green-dark;
+  }
+
+  .btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    color: $gray-third-bg;
+    text-transform: uppercase;
+
+    div {
+      flex-grow: 1;
+      height: 2px;
+      background-color: $gray-third-bg;
+    }
+  }
+
+  button {
+    width: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+
+    &.btn-primary {
+      background-color: $green-primary;
+      color: white;
+      box-shadow: 0px 8px 12px rgba(70, 255, 64, 0.2);
+
+      &:hover {
+        background-color: $green-secondary;
+      }
+    }
+
+    &.btn-secondary {
+      border: 1px solid $green-primary;
+      color: $green-primary;
+
+      &:hover {
+        background-color: $green-light;
+        color: $green-dark;
+        border-color: $green-secondary;
       }
     }
   }

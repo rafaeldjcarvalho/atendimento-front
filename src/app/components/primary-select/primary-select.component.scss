@@ -1,5 +1,5 @@
 @import "../../../styles/variables.scss";
-
+/*
 .select-wrapper {
   color: $text-color;
   font-size: 16px;
@@ -25,3 +25,83 @@
   }
 
 }
+*/
+
+.select-wrapper {
+  color: $green-dark; // Texto com verde escuro
+  font-size: 16px;
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: $green-secondary; // Cor consistente com o input
+  }
+
+  .select-content {
+    width: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    background-color: $gray-light; // Fundo claro
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid $green-light; // Borda verde clara
+    transition: all 0.3s ease;
+
+    &:focus-within {
+      box-shadow: 0px 6px 12px rgba(39, 174, 96, 0.4); // Destaque verde quando focado
+      border-color: $green-secondary;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: $gray-light; // Fundo claro
+      color: $gray-dark; // Texto escuro
+      font-size: 16px;
+      outline: none;
+      appearance: none; // Remove o estilo padrão do navegador
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      &:focus {
+        background-color: $white; // Fundo branco ao focar
+        box-shadow: inset 0px 0px 4px rgba(39, 174, 96, 0.4);
+      }
+
+      &::placeholder {
+        color: $gray-dark; // Placeholder com tom discreto
+        opacity: 0.6;
+      }
+    }
+
+    &::after {
+      content: "";
+      width: 12px;
+      height: 12px;
+      margin-left: -30px;
+      //background: url('./assets/dropdown-arrow.svg') no-repeat center;
+      background-size: contain;
+      pointer-events: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .select-wrapper {
+    font-size: 14px;
+
+    .select-content {
+      select {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+    }
+  }
+}
+

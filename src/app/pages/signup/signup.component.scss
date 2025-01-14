@@ -1,5 +1,5 @@
 @import "../../../styles/variables.scss";
-
+/*
 form {
   width: 100%;
   display: flex;
@@ -7,3 +7,24 @@ form {
   gap: 12px;
   margin-bottom: 17px;
 }
+*/
+/* Estilo do Formulário */
+form {
+  width: 90%; /* Adapta o tamanho ao viewport */
+  max-width: 400px; /* Limita a largura máxima */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espaçamento uniforme entre os campos */
+  margin: auto; /* Centraliza horizontalmente */
+  margin-bottom: 24px; /* Adiciona espaço inferior */
+  overflow-y: auto; /* Adiciona scroll vertical se necessário */
+}
+
+/* Responsividade */
+@media (max-height: 600px) {
+  form {
+    gap: 8px; /* Reduz o espaçamento entre campos */
+  }
+}
+
+
