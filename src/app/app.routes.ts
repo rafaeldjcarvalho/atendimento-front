@@ -47,5 +47,6 @@ export const routes: Routes = [
       { path: 'class/:idClass/newService/:id_order', component: ServiceFormComponent, resolve: { service: ServiceResolver}},
       { path: 'class/:idClass/editService/:id', component: ServiceFormComponent, resolve: { service: ServiceResolver}}
     ]
-  }
+  },
+  { path: '**', pathMatch: 'full', redirectTo: 'login' } // Rota coringa para páginas não encontradas
 ];
