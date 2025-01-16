@@ -1,5 +1,5 @@
 @import "../../../../styles/variables.scss";
-
+/*
 .card {
   max-width: 90%;
   margin: 2em auto;
@@ -31,6 +31,116 @@ mat-card-content {
   background: rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.space {
+  flex: 1 1 auto;
+}
+*/
+
+.card {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: center;
+  background: $gray-light;
+  color: $gray-dark;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-container {
+  width: 400px;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $green-secondary;
+  color: white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+
+mat-card {
+  margin: 10px auto;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+mat-card-header {
+  //background-color: $green-light;
+  border-radius: 8px 8px 0 0;
+  padding: 10px;
+  color: $green-dark;
+  font-weight: bold;
+}
+
+mat-card-title {
+  font-size: 1.2rem;
+  color: $green-secondary;
+}
+
+mat-card-subtitle {
+  font-size: 0.9rem;
+  color: $gray-dark;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1rem;
+  color: $gray-dark;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn {
+  background-color: $green-primary;
+  color: $white;
+
+  &:hover {
+    background-color: $green-dark;
+  }
+
+  &.btn-delete {
+    background-color: #e74c3c; // Cor vermelha para exclusão
+    &:hover {
+      background-color: darken(#e74c3c, 10%);
+    }
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background: $gray-light;
+  border-radius: 8px;
+
+  mat-spinner {
+    color: $green-primary;
+  }
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Largura fixa nos cartões */
+  gap: 12px;
   justify-content: center;
 }
 

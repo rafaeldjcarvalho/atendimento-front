@@ -45,7 +45,7 @@ export class ClassListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageIndex = 0;
-  pageSize = 10;
+  pageSize = 12;
 
   constructor(
     private classService: ClassService,
@@ -58,7 +58,7 @@ export class ClassListComponent {
     this.refresh();
   }
 
-  refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }) {
+  refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 12 }) {
     this.classList$ = this.classService.list(pageEvent.pageIndex, pageEvent.pageSize)
       .pipe(
         tap(() => {

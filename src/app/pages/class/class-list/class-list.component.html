@@ -8,7 +8,7 @@
   @if (classList$ | async; as classes) {
     <div class="container">
       @for (classItem of classes.classes; track $index) {
-        <mat-card appearance="outlined">
+        <mat-card class="card-container" appearance="outlined">
           <mat-card-header>
             <mat-card-title-group>
               <mat-card-title>
@@ -21,10 +21,10 @@
               <mat-card-subtitle>{{ classItem.date | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
               @if (getUserLogged() != null && classItem.owner?.id == getUserLogged()) {
                 <div class="button-row">
-                  <button mat-mini-fab aria-label="Edit" (click)="onEdit(classItem)">
+                  <button mat-mini-fab class="btn" aria-label="Edit" (click)="onEdit(classItem)">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-mini-fab aria-label="Delete" (click)="onRemove(classItem)">
+                  <button mat-mini-fab class="btn btn-delete" aria-label="Delete" (click)="onRemove(classItem)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
@@ -36,15 +36,16 @@
             <span class="space"></span>
             <!-- Só deve aparecer se a turma não estiver na lista de turmas do usuário logado-->
             @if (!isClassInUserClasses(classItem)) {
-              <button mat-raised-button (click)="onSubscribe(classItem)">Subscribe</button>
+              <button mat-raised-button class="btn" (click)="onSubscribe(classItem)">Subscribe</button>
             } @else {
-              <button mat-raised-button (click)="onUnSubscribe(classItem)">Unsubscribe</button>
+              <button mat-raised-button class="btn btn-delete" (click)="onUnSubscribe(classItem)">Unsubscribe</button>
             }
           </mat-card-content>
         </mat-card>
       }
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 15]"
+    </div>
+    <mat-paginator
+        [pageSizeOptions]="[6, 12, 18]"
         showFirstLastButtons
         [pageIndex]="pageIndex"
         [pageSize]="pageSize"
@@ -52,7 +53,6 @@
         (page)="refresh($event)"
         aria-label="Select page of classes"
       ></mat-paginator>
-    </div>
   } @else {
     <div class="loading-spinner">
       <mat-spinner></mat-spinner>
