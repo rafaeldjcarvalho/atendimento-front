@@ -1,3 +1,5 @@
+@import "../../../../styles/variables.scss";
+/*
 .report-container {
   display: flex;
   flex-direction: column;
@@ -13,3 +15,110 @@
   justify-content: space-between;
   margin-bottom: 10px;
 }
+*/
+
+.report-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; // Espaçamento entre os cards
+  padding: 20px;
+  background-color: $gray-light; // Fundo claro
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-form-field {
+  width: 100%;
+  max-width: 400px;
+  margin: 5px 10px 10px 20px;
+
+  mat-label {
+    color: $green-dark; // Destaque para o rótulo
+  }
+}
+
+.summary-card,
+.days-card,
+.weekly-usage-card {
+  background-color: $white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+
+  mat-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: $green-primary;
+    margin-bottom: 12px;
+  }
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: $gray-dark;
+
+  strong {
+    color: $green-secondary;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+  background-color: $green-light;
+  color: $green-dark;
+  font-weight: bold;
+  border-bottom: 2px solid $green-secondary;
+}
+
+td {
+  padding: 8px;
+  border-bottom: 1px solid $gray-light;
+  color: $gray-dark;
+}
+
+tr:hover {
+  background-color: $green-light;
+}
+
+button[mat-raised-button] {
+  background-color: $green-primary;
+  color: $white;
+  //padding: 8px 16px;
+  //border-radius: 4px;
+
+  &:hover {
+    background-color: $green-secondary;
+  }
+}
+
+h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: $green-dark;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.mat-card {
+  margin: 16px 0;
+}
+
