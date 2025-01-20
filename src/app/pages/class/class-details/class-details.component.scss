@@ -1,3 +1,5 @@
+@import "../../../../styles/variables.scss";
+/*
 .card {
   max-width: 90%;
   margin: 2em auto;
@@ -27,4 +29,95 @@ mat-card-content {
 
 .actions-center {
   justify-content: center;
+}
+*/
+
+.card {
+  max-width: 90%; /* Ajuste ideal para largura do formulário */
+  margin: 2em auto;
+  padding: 1.5em;
+  text-align: center;
+  background-color: $white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $green-secondary;
+  color: white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+
+mat-card-content {
+  margin-top: 10px;
+  padding: 1em 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.min-width {
+  width: 100%;
+  min-width: 150px;
+}
+
+mat-form-field {
+  margin-bottom: 1em;
+
+  mat-label {
+    color: $green-dark;
+    font-weight: 600;
+  }
+
+  input[matInput] {
+    font-size: 1rem;
+    color: $gray-dark;
+  }
+
+  mat-error {
+    font-size: 0.875rem;
+    color: red;
+    margin-top: 4px;
+  }
+}
+
+.actions-center {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espaçamento entre os botões */
+  margin-top: 1.5em;
+}
+
+button[mat-raised-button] {
+  padding: 0.5em 1.5em;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: darken($green-primary, 10%);
+  }
+}
+
+button[mat-raised-button][color="primary"] {
+  background-color: $green-primary;
+  color: $white;
+
+  &:hover {
+    background-color: $green-secondary;
+  }
+}
+
+button[mat-raised-button]:not([color="primary"]) {
+  background-color: $gray-light;
+  color: $gray-dark;
+
+  &:hover {
+    background-color: lighten($gray-light, 10%);
+  }
 }
