@@ -23,9 +23,9 @@
         </mat-error>
       }
       @for (schedule of getSchedulesFormArray(); track schedule; let i = $index) {
-        <table style="width: 100%" formArrayName="schedules">
+        <table  formArrayName="schedules">
           <tr [formGroupName]="i">
-            <td style="width: 40%">
+            <td >
               <mat-form-field class="full-width">
                 <mat-label>Dia da Semana</mat-label>
                 <mat-select formControlName="dayOfWeek">
@@ -47,7 +47,7 @@
                 }
               </mat-form-field>
             </td>
-            <td style="width: 25%">
+            <td >
               <mat-form-field class="full-width">
                 <mat-label>Horário Inicial</mat-label>
                 <input matInput type="time" formControlName="startTime" />
@@ -63,7 +63,7 @@
                 }
               </mat-form-field>
             </td>
-            <td style="width: 25%">
+            <td >
               <mat-form-field class="full-width">
                 <mat-label>Horário de Finalização</mat-label>
                 <input matInput type="time" formControlName="endTime" />
@@ -80,7 +80,7 @@
               </mat-form-field>
             </td>
             <td>
-              <button mat-icon-button color="warn" (click)="removeSchedule(i)">
+              <button mat-icon-button color="btn warn" (click)="removeSchedule(i)">
                 <mat-icon aria-label="Remover Horário">delete</mat-icon>
               </button>
             </td>

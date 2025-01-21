@@ -1,5 +1,5 @@
 @import '../../../../styles/variables.scss';
-
+/*
 .card {
   max-width: 95%;
   margin: 2em auto;
@@ -25,4 +25,110 @@ mat-card-footer {
   margin: 5px;
   padding: 10px;
   justify-content: center;
+}
+*/
+
+.card {
+  max-width: 95%;
+  margin: 2em auto;
+  text-align: center;
+  background-color: $gray-light; /* Fundo claro */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.bg-color {
+  background-color: $white; /* Fundo padrão para as abas */
+}
+
+mat-toolbar {
+  background-color: $green-secondary; /* Cor principal */
+  color: $white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-card-content {
+  padding: 20px;
+  background-color: $white;
+  border-radius: 0 0 12px 12px;
+}
+
+mat-tab-group {
+  text-align: left;
+
+  .mat-tab-label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $green-dark;
+
+    &:hover {
+      color: $green-secondary;
+    }
+
+    &.mat-tab-label-active {
+      color: $green-primary;
+      border-bottom: 2px solid $green-secondary;
+    }
+  }
+
+  .mat-tab-body {
+    padding: 20px;
+    background-color: $gray-light;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.container {
+  margin: 10px 0;
+  padding: 0 10px;
+
+  mat-form-field {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+
+    mat-label {
+      color: $green-dark;
+      font-weight: 600;
+    }
+
+    mat-select {
+      //background-color: $white;
+      border-radius: 4px;
+    }
+  }
+}
+
+mat-card-footer {
+  margin: 5px;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: $gray-dark;
+  background-color: $gray-light;
+  border-radius: 0 0 12px 12px;
+
+  span {
+    font-weight: bold;
+    color: $green-primary;
+  }
+}
+
+button[mat-raised-button] {
+  background-color: $green-primary;
+  color: $white;
+  font-size: 0.875rem;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: $green-secondary;
+  }
 }

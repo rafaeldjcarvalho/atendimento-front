@@ -1,3 +1,6 @@
+@import "../../../../styles/variables.scss";
+
+/*
 .btn-left {
   padding: 16px;
   display: flex;
@@ -7,3 +10,40 @@
 mat-card-header, mat-card-content {
   background-color: #FAF9FD;
 }
+*/
+
+mat-card {
+  max-width: 95%;
+  margin: 2em auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: $white; /* Fundo padrão do card */
+}
+
+mat-card-header {
+  padding: 16px;
+  background-color: $gray-light; /* Fundo claro para o cabeçalho */
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: flex-end; /* Alinha o botão à direita */
+
+  button[mat-raised-button] {
+    background-color: $green-primary; /* Botão com a cor primária */
+    color: $white;
+    font-size: 0.875rem;
+    //font-weight: bold;
+    //padding: 0.5em 1em;
+    //border-radius: 4px;
+
+    &:hover {
+      background-color: $green-secondary; /* Cor no hover */
+    }
+  }
+}
+
+mat-card-content {
+  padding: 20px;
+  background-color: $gray-light; /* Fundo claro */
+  border-radius: 0 0 12px 12px;
+}
+

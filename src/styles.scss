@@ -36,6 +36,7 @@ $atendimento-front-theme: mat.define-theme((
 // @include mat.color-variants-backwards-compatibility($atendimento-front-theme);
 /* You can add global styles to this file, and also import other style files */
 @import 'ngx-toastr/toastr';
+@import 'styles/variables.scss';
 
 * {
   margin: 0;
@@ -45,3 +46,46 @@ $atendimento-front-theme: mat.define-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+
+full-calendar {
+  margin: 20px 0;
+  border: 1px solid $green-light;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: $white;
+  padding: 1em;
+
+  .fc-toolbar {
+    background-color: $green-light;
+    color: $green-dark;
+    padding: 0.5em;
+    border-radius: 4px;
+  }
+
+  .fc-view {
+    border-radius: 8px;
+    padding: 1em;
+  }
+
+  /* Estilo para eventos */
+  .fc-daygrid-event,
+  .fc-event {
+    background-color: $green-primary !important; /* Cor de fundo */
+    color: $white !important; /* Cor do texto */
+    //font-weight: bold;
+    border-radius: 4px; /* Cantos arredondados */
+    padding: 0.2em; /* Espaçamento interno */
+    height: 2.5em !important; /* Altura maior */
+    line-height: 2em; /* Alinhamento vertical */
+    max-width: 80% !important; /* Largura menor */
+    margin: 0 auto; /* Centralizar dentro da célula */
+    //text-align: center; /* Centralizar o texto */
+    border: 1px solid $green-dark; /* Borda para contraste */
+    overflow: hidden; /* Evitar que o texto ultrapasse a caixa */
+  }
+
+  .fc-event:hover {
+    background-color: lighten($green-primary, 10%) !important; /* Alterar cor ao passar o mouse */
+  }
+}
+

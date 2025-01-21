@@ -1,3 +1,6 @@
+@import "../../../../styles/variables.scss";
+
+/*
 mat-card {
   max-width: 95%;
   margin: 2em auto;
@@ -24,3 +27,177 @@ mat-card {
 .form-array-error {
   text-align: left;
 }
+*/
+
+// Estilização do card principal
+mat-card {
+  max-width: 90%;
+  margin: 2em auto;
+  padding: 1.5em;
+  background-color: $white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+// Toolbar no topo
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $green-secondary;
+  color: $white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+  //font-size: 1.25rem;
+  //font-weight: bold;
+}
+
+// Conteúdo do formulário
+mat-card-content {
+  margin-top: 10px;
+  padding: 1em 0;
+}
+
+// Campos do formulário
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+
+  mat-label {
+    color: $green-dark;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  input[matInput], mat-select {
+    //font-size: 1rem;
+    color: $gray-dark;
+    //background-color: $white;
+    border-radius: 4px;
+    padding: 0.5em;
+  }
+
+  mat-error {
+    font-size: 0.875rem;
+    color: red;
+    margin-top: 4px;
+  }
+}
+
+/* Estilização da tabela de horários */
+table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+
+  td {
+    padding: 8px;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  button[mat-icon-button] {
+    margin-left: 5px;
+
+    &.warn {
+      background-color: red;
+      color: $white;
+
+      &:hover {
+        background-color: darken(red, 10%);
+      }
+    }
+  }
+}
+
+/* Responsividade */
+@media (max-width: 940px) {
+  table {
+    display: block; /* Transforma a tabela em bloco */
+    width: 100%;
+  }
+
+  tr {
+    display: flex; /* Exibe os campos verticalmente */
+    flex-direction: column;
+    margin-bottom: 10px; /* Espaçamento entre os grupos */
+  }
+
+  td {
+    display: block; /* Faz com que os campos ocupem 100% da largura */
+    width: 100%;
+    margin-bottom: 10px; /* Espaçamento entre os campos */
+  }
+
+  /* Ajuste nos botões de ação */
+  td:last-child {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+  }
+}
+
+
+// Botão de adicionar horários
+mat-toolbar span {
+  //font-size: 1rem;
+  //font-weight: bold;
+  color: $white;
+}
+
+button[mat-icon-button] {
+  background-color: $white;
+  color: $green-dark;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: $green-secondary;
+    color: $white;
+  }
+}
+
+// Mensagem de erro para array
+.form-array-error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 10px;
+  text-align: left;
+}
+
+// Botões de ação
+.actions-center {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+
+  button[mat-raised-button] {
+    padding: 0.5em 1.5em;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+    &[color="primary"] {
+      background-color: $green-primary;
+      color: $white;
+
+      &:hover {
+        background-color: $green-secondary;
+      }
+    }
+
+    &:not([color="primary"]) {
+      background-color: $gray-light;
+      color: $gray-dark;
+
+      &:hover {
+        background-color: lighten($gray-light, 10%);
+      }
+    }
+  }
+}
+
+

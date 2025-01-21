@@ -1,4 +1,6 @@
+@import "../../../styles/variables.scss";
 
+/*
 .card {
   max-width: 90%;
   margin: 2em auto;
@@ -29,3 +31,83 @@
 mat-card {
   margin: 5px;
 }
+*/
+
+.card {
+  max-width: 90%;
+  margin: 2em auto;
+  text-align: left;
+  //background-color: $white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-container {
+  display: inline;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  //justify-items: center; /* Centraliza os cards */
+}
+
+.user-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 80px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: $white;
+  color: $green-dark;
+  font-weight: bold;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-container:hover {
+  background-color: lighten($green-light, 10%);
+}
+
+button[mat-button] {
+  margin-top: 8px;
+  //width: 100%;
+  text-align: center;
+  color: $green-dark;
+
+  &:hover{
+    background-color: $green-dark;
+    color: $white;
+  }
+}
+
+.space {
+  flex: 1 1 auto;
+}
+
+mat-card {
+  width: 100%;
+  margin: 5px;
+}
+
+.width-min {
+  width: 100%;
+  //background-color: $white;
+}
+
+mat-card-content {
+  padding: 16px;
+  background-color: $gray-light;
+  border-radius: 8px;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $green-secondary;
+  color: $white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+

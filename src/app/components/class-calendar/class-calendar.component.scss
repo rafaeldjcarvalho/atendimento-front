@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+/*
 .full-width{
   width: 100%;
 }
@@ -7,3 +9,80 @@
   display: flex;
   justify-content: flex-end;
 }
+*/
+/* Campo de seleção de calendário */
+mat-form-field.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: $white;
+  border-radius: 8px;
+  padding: 0.5em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  mat-label {
+    color: $green-dark; /* Destaque no rótulo */
+    font-weight: bold;
+  }
+
+  mat-select {
+    border-radius: 4px;
+
+    .mat-option-text {
+      font-size: 1rem;
+      color: $gray-dark;
+    }
+  }
+}
+
+/* Botão para deletar o calendário */
+.btn-left {
+  margin: 1em 0;
+  display: flex;
+  justify-content: flex-end;
+
+  button[mat-raised-button] {
+    background-color: $green-primary;
+    color: $white;
+    font-size: 0.9rem;
+    //font-weight: bold;
+    //padding: 0.5em 1.5em;
+    //border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      background-color: $green-secondary;
+    }
+  }
+}
+
+/* Estilo para o calendário
+full-calendar {
+  margin: 20px 0;
+  border: 1px solid $green-light;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: $white;
+  padding: 1em;
+
+  .fc-toolbar {
+    background-color: $green-light;
+    color: $green-dark;
+    padding: 0.5em;
+    border-radius: 4px;
+  }
+
+  .fc-view {
+    border-radius: 8px;
+    padding: 1em;
+  }
+
+  .fc-daygrid-event {
+    background-color: $green-primary;
+    color: $white;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 0.2em 0.5em;
+  }
+}
+*/
+
