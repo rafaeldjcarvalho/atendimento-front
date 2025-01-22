@@ -73,11 +73,24 @@ button[mat-button] {
   margin-top: 8px;
   //width: 100%;
   text-align: center;
-  color: $green-dark;
 
-  &:hover{
-    background-color: $green-dark;
-    color: $white;
+  &:not([color="warn"]) {
+    color: $green-dark;
+
+    &:hover{
+      background-color: $green-dark;
+      color: $white;
+    }
+  }
+
+  &[color="warn"] {
+    //background-color: #e74c3c;
+    color: $green-dark;
+
+    &:hover {
+      background-color: darken(#e74c3c, 10%);
+      color: $white;
+    }
   }
 }
 

@@ -2,7 +2,7 @@
   <mat-toolbar>
     {{ topico }}
     <div class="space"></div>
-    <button *showForAccess="['Admin', 'Aluno']" mat-mini-fab aria-label="Create" (click)="onAdd()">
+    <button *showForAccess="['Admin', 'Aluno']" mat-mini-fab aria-label="Create" class="btn" (click)="onAdd()">
       <mat-icon>add</mat-icon>
     </button>
   </mat-toolbar>
@@ -17,10 +17,10 @@
                   <mat-card-subtitle>{{ order.date | date: 'dd/MM/yyyy' }} | {{order.time_start}} - {{order.time_end}}</mat-card-subtitle>
                   @if (userLogged != null && userLogged == order.userId) {
                     <div class="button-row">
-                      <button mat-mini-fab aria-label="Edit" (click)="onEdit(order)">
+                      <button mat-mini-fab aria-label="Edit" class="btn" (click)="onEdit(order)">
                         <mat-icon>edit</mat-icon>
                       </button>
-                      <button mat-mini-fab aria-label="Delete" (click)="onDelete(order)">
+                      <button mat-mini-fab aria-label="Delete" class="btn-delete" (click)="onDelete(order)">
                         <mat-icon>delete</mat-icon>
                       </button>
                     </div>
@@ -33,8 +33,8 @@
             </mat-card-content>
             @if (actionButtons) {
               <mat-card-actions>
-                <button *showForAccess="['Admin', 'Professor', 'Monitor']" mat-button (click)="onAccept(order)">Accept</button>
-                <button *showForAccess="['Admin', 'Professor', 'Monitor']" mat-button (click)="onReject(order)">Reject</button>
+                <button *showForAccess="['Admin', 'Professor', 'Monitor']" mat-button class="btn" (click)="onAccept(order)">Accept</button>
+                <button *showForAccess="['Admin', 'Professor', 'Monitor']" mat-button class="btn-delete margin" (click)="onReject(order)">Reject</button>
               </mat-card-actions>
             }
         </mat-card>

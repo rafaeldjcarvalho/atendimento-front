@@ -35,6 +35,10 @@ mat-form-field {
   mat-label {
     color: $green-dark; // Destaque para o rótulo
   }
+
+  @media (max-width: 430px) {
+    max-width: 280px;
+  }
 }
 
 .summary-card,

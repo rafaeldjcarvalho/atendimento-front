@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Garante que o componente ocupe a altura total da janela */
+  overflow: hidden; /* Evita scrolls desnecessários */
+}
+
+app-header {
+  flex: 0 0 auto; /* Tamanho fixo baseado no conteúdo do header */
+}
+
+app-side-nav {
+  flex: 1 1 auto; /* O restante do espaço será ocupado pelo side nav */
+  overflow: hidden; /* Remove possíveis scrolls extras */
+}

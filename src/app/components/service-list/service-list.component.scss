@@ -1,4 +1,6 @@
+@import "../../../styles/variables.scss";
 
+/*
 .card {
   max-width: 90%;
   margin: 2em auto;
@@ -42,3 +44,121 @@ mat-card {
 mat-card-footer {
   padding: 10px;
 }
+*/
+
+.card {
+  max-width: 90%;
+  margin: 2em auto;
+  background-color: $white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 16px;
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    background-color: $gray-light;
+    border: 1px solid $green-dark;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.space {
+  flex: 1 1 auto;
+}
+
+mat-card-header {
+  background-color: $white;
+  color: $gray-dark;
+  padding: 12px;
+  border-radius: 8px 8px 0 0;
+  text-align: left;
+}
+
+mat-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+mat-card-subtitle {
+  font-size: 0.9rem;
+  color: $gray-dark;
+}
+
+mat-card-content {
+  padding: 16px;
+  color: $gray-dark;
+  background-color: $white;
+}
+
+mat-card-actions {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: flex-end;
+  background-color: $white;
+  border-top: 1px solid $gray-light;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.width-min {
+  width: 100%;
+}
+
+.margin {
+  margin-left: 5px;
+}
+
+mat-icon {
+  color: $white;
+}
+
+.btn {
+  background-color: $green-primary !important;
+  color: $white !important;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: darken($green-primary, 10%) !important;
+  }
+}
+
+.btn-delete {
+  background-color: #e74c3c; // Vermelho para exclusão
+  color: $white;
+  &:hover {
+    background-color: darken(#e74c3c, 10%);
+  }
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $green-secondary;
+  color: $white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+

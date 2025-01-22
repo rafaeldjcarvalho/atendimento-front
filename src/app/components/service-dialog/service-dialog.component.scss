@@ -1,4 +1,6 @@
+@import "../../../styles/variables.scss";
 
+/*
 .text-success {
   color: green;
 }
@@ -9,4 +11,99 @@
 
 ul {
   margin-left: 20px;
+}
+*/
+
+/* Estilização do diálogo */
+
+h2[mat-dialog-title] {
+  color: $green-primary;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+mat-dialog-content {
+  font-size: 1rem;
+  color: $gray-dark;
+  padding: 16px 0;
+
+  p {
+    margin: 8px 0;
+  }
+
+  h3 {
+    color: $green-secondary;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+  }
+
+  ul {
+    margin-left: 20px;
+    list-style-type: disc;
+
+    li {
+      margin-bottom: 8px;
+      font-size: 1rem;
+
+      strong {
+        font-weight: bold;
+      }
+
+      .text-success {
+        color: $green-primary;
+        font-weight: bold;
+      }
+
+      .text-danger {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+  //gap: 16px; /* Espaçamento entre os botões */
+  //padding: 16px 0;
+  border-top: 1px solid $gray-light;
+
+  button {
+    //padding: 0.5em 1.5em;
+    //font-size: 1rem;
+    //font-weight: bold;
+    //border-radius: 4px;
+    transition: background-color 0.2s ease;
+
+    &[color="primary"] {
+      background-color: $green-primary;
+      color: $white;
+
+      &:hover {
+        background-color: $green-secondary;
+      }
+    }
+
+    &[color="warn"] {
+      background-color: #e74c3c;
+      color: $white;
+
+      &:hover {
+        background-color: darken(#e74c3c, 10%);
+      }
+    }
+
+    &[mat-dialog-close] {
+      background-color: $gray-light;
+      color: $gray-dark;
+
+      &:hover {
+        background-color: lighten($gray-light, 10%);
+      }
+    }
+  }
 }

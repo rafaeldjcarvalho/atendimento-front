@@ -1,0 +1,55 @@
+@import "../../../styles/variables.scss";
+
+/* Estilização do diálogo de confirmação */
+h2[mat-dialog-title] {
+  color: $green-primary;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+mat-dialog-content {
+  font-size: 1rem;
+  color: $gray-dark;
+  padding: 16px 0;
+
+  p {
+    margin: 8px 0;
+    text-align: center; /* Centraliza o texto para maior equilíbrio visual */
+    line-height: 1.5; /* Melhor legibilidade */
+  }
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center; /* Espaçamento uniforme entre os botões */
+  padding: 16px 0;
+  border-top: 1px solid $gray-light;
+
+  button {
+    //padding: 0.5em 1.5em;
+    font-size: 1rem;
+    //font-weight: bold;
+    //border-radius: 4px;
+    transition: background-color 0.2s ease;
+
+    &[color="primary"] {
+      background-color: $green-primary;
+      color: $white;
+
+      &:hover {
+        background-color: $green-secondary;
+      }
+    }
+
+    &[color="warn"] {
+      background-color: #e74c3c;
+      color: $white;
+
+      &:hover {
+        background-color: darken(#e74c3c, 10%);
+      }
+    }
+  }
+}

@@ -51,6 +51,10 @@ mat-card-content {
 
 .card-container {
   width: 400px;
+
+  @media (max-width: 880px) {
+    width: 100%;
+  }
 }
 
 mat-toolbar {
@@ -142,10 +146,15 @@ mat-card-content {
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Largura fixa nos cartões */
   gap: 12px;
   justify-content: center;
+
+  @media (max-width: 880px) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // Largura fixa nos cartões
+  }
 }
 
 .space {
   flex: 1 1 auto;
 }
+
 
 

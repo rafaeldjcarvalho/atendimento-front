@@ -1,3 +1,6 @@
+@import "../../../../styles/variables.scss";
+
+/*
 .container {
   margin: 10px 10px 0px 0px;
 }
@@ -12,4 +15,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+*/
+
+.container {
+  margin: 10px;
+  padding: 16px;
+  background: $gray-light;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.loading-spinner {
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+  border-radius: 8px;
 }

@@ -30,7 +30,7 @@
   }
 }
 */
-
+/*
 .container {
   height: 91.5%;
   background-color: $gray-light;
@@ -41,6 +41,28 @@
   background-color: $green-light;
   width: 250px;
   transition: width 0.3s ease;
+}
+*/
+.container {
+  display: flex;
+  height: 100%; /* Ajusta a altura para preencher o espaço restante */
+  background-color: $gray-light;
+  overflow: hidden; /* Evita scrolls no container */
+}
+
+mat-drawer {
+  flex: 0 0 250px; /* Define largura fixa para a SideNav */
+  height: 100%; /* Preenche a altura total disponível */
+  overflow-y: auto; /* Ativa scroll apenas dentro da sidebar, se necessário */
+  background-color: $green-light;
+}
+
+mat-drawer-content {
+  flex: 1; /* O conteúdo principal ocupa o espaço restante */
+  height: 100%; /* Preenche a altura total disponível */
+  overflow-y: auto; /* Scroll somente no conteúdo principal */
+  padding: 16px;
+  background-color: $gray-light;
 }
 
 .sidenav {
@@ -83,13 +105,13 @@
   }
 }
 
-/* Content Area */
+/* Content Area
 mat-drawer-content {
   padding: 16px;
   background-color: $gray-light;
   min-height: 100%;
 }
-
+*/
 /* Responsividade para a Sidebar */
 @media (max-width: 768px) {
   .mat-drawer {

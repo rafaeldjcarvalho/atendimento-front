@@ -1,3 +1,6 @@
+@import "../../../../styles/variables.scss";
+
+/*
 .card {
   max-width: 90%;
   margin: 2em auto;
@@ -27,4 +30,104 @@ mat-card-content {
 
 .actions-center {
   justify-content: center;
+}
+*/
+
+.card {
+  max-width: 90%; /* Largura ideal para formulário */
+  margin: 20px auto;
+  padding: 1.5em;
+  text-align: center;
+  background-color: $white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $green-secondary;
+  color: $white;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+  //font-weight: bold;
+}
+
+mat-card-content {
+  margin-top: 10px;
+  padding: 1em 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espaçamento entre os campos */
+}
+
+.full-width {
+  width: 100%;
+}
+
+.min-width {
+  width: 100%;
+  min-width: 150px;
+}
+
+mat-form-field {
+  margin-bottom: 10px;
+
+  mat-label {
+    color: $green-dark;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  input[matInput],
+  mat-select {
+    font-size: 1rem;
+    color: $gray-dark;
+  }
+
+  mat-error {
+    font-size: 0.875rem;
+    color: #e74c3c; /* Vermelho para mensagens de erro */
+    margin-top: 4px;
+  }
+}
+
+.actions-center {
+  display: flex;
+  justify-content: center;
+  gap: 16px; /* Espaçamento entre os botões */
+}
+
+button[mat-raised-button] {
+  padding: 0.5em 1.5em;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: darken($green-primary, 10%);
+  }
+}
+
+button[mat-raised-button][color="primary"] {
+  background-color: $green-primary;
+  color: $white;
+
+  &:hover {
+    background-color: $green-secondary;
+  }
+}
+
+button[mat-raised-button]:not([color="primary"]) {
+  background-color: $gray-light;
+  color: $gray-dark;
+
+  &:hover {
+    background-color: lighten($gray-light, 10%);
+  }
 }
