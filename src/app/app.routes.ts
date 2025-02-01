@@ -16,6 +16,8 @@ import { ServiceResolver } from './guards/resolvers/service.resolver';
 import { UserDetailsComponent } from './pages/user/user-details/user-details.component';
 import { HomeComponent } from './pages/home/home/home.component';
 import { ReportListComponent } from './pages/report/report-list/report-list.component';
+import { ForgotPasswordComponent } from './pages/login/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './pages/login/reset-password/reset-password.component';
 
 
 export const routes: Routes = [
@@ -27,6 +29,14 @@ export const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent
   },
   {
     path: 'user',

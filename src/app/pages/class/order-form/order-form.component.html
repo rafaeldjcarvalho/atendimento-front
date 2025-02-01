@@ -118,7 +118,13 @@
 
     <mat-card-actions class="actions-center">
       <button mat-raised-button color="primary" (click)="onSubmit()">
-        Salvar
+        @if (loading) {
+          <div class="loading-spinner">
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        } @else {
+          Salvar
+        }
       </button>
       <button mat-raised-button (click)="onCancel()" class="btn-space">
         Cancelar

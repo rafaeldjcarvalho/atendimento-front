@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Schedule } from '../../../interfaces/schedule.interface';
 import { Calendar } from '../../../interfaces/calendar.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-order-form',
@@ -27,6 +28,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatProgressSpinner,
     ReactiveFormsModule
   ],
   templateUrl: './order-form.component.html',
@@ -36,6 +38,7 @@ export class OrderFormComponent implements OnInit {
 
   orderForm!: FormGroup;
   classId!: string;
+  loading = false;
 
   calendars: Calendar[] = [];
   availableDates: Date[] = [];
@@ -78,10 +81,15 @@ export class OrderFormComponent implements OnInit {
 
   onSubmit() {
     if (this.orderForm.valid) {
+      this.loading = true;
       this.service.save(this.orderForm.value).subscribe({
-        next: () => this.onSuccess(),
+        next: () => {
+          this.onSuccess();
+          this.loading = false;
+        },
         error: (error: HttpErrorResponse) => {
           this.handleError(error);
+          this.loading = false;
         }
       });
     } else {

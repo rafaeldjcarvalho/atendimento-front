@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
 import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,7 +18,8 @@ interface LoginForm {
   imports: [
     ReactiveFormsModule,
     DefaultLoginLayoutComponent,
-    PrimaryInputComponent
+    PrimaryInputComponent,
+    RouterLink
   ],
   providers: [
     AuthService

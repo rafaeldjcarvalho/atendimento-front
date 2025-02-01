@@ -131,3 +131,9 @@ button[mat-raised-button]:not([color="primary"]) {
     background-color: lighten($gray-light, 10%);
   }
 }
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

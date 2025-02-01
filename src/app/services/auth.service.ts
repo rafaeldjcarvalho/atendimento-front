@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, delay, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, catchError, delay, first, map, Observable, of, switchMap, take, tap, timeout } from 'rxjs';
 import { LoginResponse } from '../types/login-response.type';
 import { HttpClient } from '@angular/common/http';
 import { UserWithToken } from '../interfaces/user.interface';
@@ -54,6 +54,26 @@ export class AuthService {
   logout(): void {
     this.removeUserFromSessionStorage();
     this.user.next(null);
+  }
+
+  forgotPassword(email: string) {
+    return this.httpClient.post(`${this.apiUrl}/forgot-password`, email, { responseType: 'text' as 'json' }).pipe(
+      timeout(10000), // Define um timeout de 10 segundos
+      catchError(err => {
+        console.error("Erro na requisição:", err);
+        return of({ error: true, message: "Falha ao enviar e-mail" });
+      })
+    );
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.httpClient.post(`${this.apiUrl}/reset-password?token=${token}`, newPassword, { responseType: 'text' as 'json' }).pipe(
+      timeout(10000), // Define um timeout de 10 segundos
+      catchError(err => {
+        console.error("Erro na requisição:", err);
+        return of({ error: true, message: "Falha ao enviar e-mail" });
+      })
+    );
   }
 
   getLoggedInUserId(): string | null {
